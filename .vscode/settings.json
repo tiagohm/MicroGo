@@ -1,0 +1,13 @@
+{
+    "antlr4.generation": {
+        "language": "Dart",
+        "visitors": true,
+        "mode": "external",
+        "outputDir": "../lib/src/grammar"
+    },
+    "[antlr]": {
+        "editor.formatOnSave": false,
+        "editor.formatOnPaste": false,
+        "editor.formatOnType": false
+    }
+}
