@@ -1,8 +1,9 @@
 // ignore_for_file: unused_import, unused_local_variable, prefer_single_quotes
 import 'package:antlr4/antlr4.dart';
 
-import 'MicroGoBaseParser.dart';
 import 'MicroGoParser.dart';
+
+import 'MicroGoBaseParser.dart';
 
 /// This abstract class defines a complete listener for a parse tree produced by
 /// [MicroGoParser].
@@ -14,6 +15,22 @@ abstract class MicroGoListener extends ParseTreeListener {
   /// Exit a parse tree produced by [MicroGoParser.sourceFile].
   /// [ctx] the parse tree
   void exitSourceFile(SourceFileContext ctx);
+
+  /// Enter a parse tree produced by [MicroGoParser.importDeclList].
+  /// [ctx] the parse tree
+  void enterImportDeclList(ImportDeclListContext ctx);
+
+  /// Exit a parse tree produced by [MicroGoParser.importDeclList].
+  /// [ctx] the parse tree
+  void exitImportDeclList(ImportDeclListContext ctx);
+
+  /// Enter a parse tree produced by [MicroGoParser.topLevelDeclList].
+  /// [ctx] the parse tree
+  void enterTopLevelDeclList(TopLevelDeclListContext ctx);
+
+  /// Exit a parse tree produced by [MicroGoParser.topLevelDeclList].
+  /// [ctx] the parse tree
+  void exitTopLevelDeclList(TopLevelDeclListContext ctx);
 
   /// Enter a parse tree produced by [MicroGoParser.packageClause].
   /// [ctx] the parse tree
@@ -39,6 +56,14 @@ abstract class MicroGoListener extends ParseTreeListener {
   /// [ctx] the parse tree
   void exitImportDecl(ImportDeclContext ctx);
 
+  /// Enter a parse tree produced by [MicroGoParser.importSpecList].
+  /// [ctx] the parse tree
+  void enterImportSpecList(ImportSpecListContext ctx);
+
+  /// Exit a parse tree produced by [MicroGoParser.importSpecList].
+  /// [ctx] the parse tree
+  void exitImportSpecList(ImportSpecListContext ctx);
+
   /// Enter a parse tree produced by [MicroGoParser.importSpec].
   /// [ctx] the parse tree
   void enterImportSpec(ImportSpecContext ctx);
@@ -54,30 +79,6 @@ abstract class MicroGoListener extends ParseTreeListener {
   /// Exit a parse tree produced by [MicroGoParser.importPath].
   /// [ctx] the parse tree
   void exitImportPath(ImportPathContext ctx);
-
-  /// Enter a parse tree produced by [MicroGoParser.stringLit].
-  /// [ctx] the parse tree
-  void enterStringLit(StringLitContext ctx);
-
-  /// Exit a parse tree produced by [MicroGoParser.stringLit].
-  /// [ctx] the parse tree
-  void exitStringLit(StringLitContext ctx);
-
-  /// Enter a parse tree produced by [MicroGoParser.rawStringLit].
-  /// [ctx] the parse tree
-  void enterRawStringLit(RawStringLitContext ctx);
-
-  /// Exit a parse tree produced by [MicroGoParser.rawStringLit].
-  /// [ctx] the parse tree
-  void exitRawStringLit(RawStringLitContext ctx);
-
-  /// Enter a parse tree produced by [MicroGoParser.interpretedStringLit].
-  /// [ctx] the parse tree
-  void enterInterpretedStringLit(InterpretedStringLitContext ctx);
-
-  /// Exit a parse tree produced by [MicroGoParser.interpretedStringLit].
-  /// [ctx] the parse tree
-  void exitInterpretedStringLit(InterpretedStringLitContext ctx);
 
   /// Enter a parse tree produced by [MicroGoParser.topLevelDecl].
   /// [ctx] the parse tree
@@ -103,6 +104,14 @@ abstract class MicroGoListener extends ParseTreeListener {
   /// [ctx] the parse tree
   void exitConstDecl(ConstDeclContext ctx);
 
+  /// Enter a parse tree produced by [MicroGoParser.constSpecList].
+  /// [ctx] the parse tree
+  void enterConstSpecList(ConstSpecListContext ctx);
+
+  /// Exit a parse tree produced by [MicroGoParser.constSpecList].
+  /// [ctx] the parse tree
+  void exitConstSpecList(ConstSpecListContext ctx);
+
   /// Enter a parse tree produced by [MicroGoParser.constSpec].
   /// [ctx] the parse tree
   void enterConstSpec(ConstSpecContext ctx);
@@ -119,6 +128,14 @@ abstract class MicroGoListener extends ParseTreeListener {
   /// [ctx] the parse tree
   void exitIdentifierList(IdentifierListContext ctx);
 
+  /// Enter a parse tree produced by [MicroGoParser.identifier].
+  /// [ctx] the parse tree
+  void enterIdentifier(IdentifierContext ctx);
+
+  /// Exit a parse tree produced by [MicroGoParser.identifier].
+  /// [ctx] the parse tree
+  void exitIdentifier(IdentifierContext ctx);
+
   /// Enter a parse tree produced by [MicroGoParser.expressionList].
   /// [ctx] the parse tree
   void enterExpressionList(ExpressionListContext ctx);
@@ -134,6 +151,14 @@ abstract class MicroGoListener extends ParseTreeListener {
   /// Exit a parse tree produced by [MicroGoParser.typeDecl].
   /// [ctx] the parse tree
   void exitTypeDecl(TypeDeclContext ctx);
+
+  /// Enter a parse tree produced by [MicroGoParser.typeSpecList].
+  /// [ctx] the parse tree
+  void enterTypeSpecList(TypeSpecListContext ctx);
+
+  /// Exit a parse tree produced by [MicroGoParser.typeSpecList].
+  /// [ctx] the parse tree
+  void exitTypeSpecList(TypeSpecListContext ctx);
 
   /// Enter a parse tree produced by [MicroGoParser.typeSpec].
   /// [ctx] the parse tree
@@ -166,6 +191,14 @@ abstract class MicroGoListener extends ParseTreeListener {
   /// Exit a parse tree produced by [MicroGoParser.varDecl].
   /// [ctx] the parse tree
   void exitVarDecl(VarDeclContext ctx);
+
+  /// Enter a parse tree produced by [MicroGoParser.varSpecList].
+  /// [ctx] the parse tree
+  void enterVarSpecList(VarSpecListContext ctx);
+
+  /// Exit a parse tree produced by [MicroGoParser.varSpecList].
+  /// [ctx] the parse tree
+  void exitVarSpecList(VarSpecListContext ctx);
 
   /// Enter a parse tree produced by [MicroGoParser.varSpec].
   /// [ctx] the parse tree
@@ -239,6 +272,14 @@ abstract class MicroGoListener extends ParseTreeListener {
   /// [ctx] the parse tree
   void exitStructType(StructTypeContext ctx);
 
+  /// Enter a parse tree produced by [MicroGoParser.fieldDeclList].
+  /// [ctx] the parse tree
+  void enterFieldDeclList(FieldDeclListContext ctx);
+
+  /// Exit a parse tree produced by [MicroGoParser.fieldDeclList].
+  /// [ctx] the parse tree
+  void exitFieldDeclList(FieldDeclListContext ctx);
+
   /// Enter a parse tree produced by [MicroGoParser.fieldDecl].
   /// [ctx] the parse tree
   void enterFieldDecl(FieldDeclContext ctx);
@@ -262,14 +303,6 @@ abstract class MicroGoListener extends ParseTreeListener {
   /// Exit a parse tree produced by [MicroGoParser.pointerType].
   /// [ctx] the parse tree
   void exitPointerType(PointerTypeContext ctx);
-
-  /// Enter a parse tree produced by [MicroGoParser.baseType].
-  /// [ctx] the parse tree
-  void enterBaseType(BaseTypeContext ctx);
-
-  /// Exit a parse tree produced by [MicroGoParser.baseType].
-  /// [ctx] the parse tree
-  void exitBaseType(BaseTypeContext ctx);
 
   /// Enter a parse tree produced by [MicroGoParser.functionType].
   /// [ctx] the parse tree
@@ -407,14 +440,6 @@ abstract class MicroGoListener extends ParseTreeListener {
   /// [ctx] the parse tree
   void exitMethodDecl(MethodDeclContext ctx);
 
-  /// Enter a parse tree produced by [MicroGoParser.receiver].
-  /// [ctx] the parse tree
-  void enterReceiver(ReceiverContext ctx);
-
-  /// Exit a parse tree produced by [MicroGoParser.receiver].
-  /// [ctx] the parse tree
-  void exitReceiver(ReceiverContext ctx);
-
   /// Enter a parse tree produced by [MicroGoParser.operand].
   /// [ctx] the parse tree
   void enterOperand(OperandContext ctx);
@@ -519,6 +544,30 @@ abstract class MicroGoListener extends ParseTreeListener {
   /// [ctx] the parse tree
   void exitRuneLit(RuneLitContext ctx);
 
+  /// Enter a parse tree produced by [MicroGoParser.stringLit].
+  /// [ctx] the parse tree
+  void enterStringLit(StringLitContext ctx);
+
+  /// Exit a parse tree produced by [MicroGoParser.stringLit].
+  /// [ctx] the parse tree
+  void exitStringLit(StringLitContext ctx);
+
+  /// Enter a parse tree produced by [MicroGoParser.rawStringLit].
+  /// [ctx] the parse tree
+  void enterRawStringLit(RawStringLitContext ctx);
+
+  /// Exit a parse tree produced by [MicroGoParser.rawStringLit].
+  /// [ctx] the parse tree
+  void exitRawStringLit(RawStringLitContext ctx);
+
+  /// Enter a parse tree produced by [MicroGoParser.interpretedStringLit].
+  /// [ctx] the parse tree
+  void enterInterpretedStringLit(InterpretedStringLitContext ctx);
+
+  /// Exit a parse tree produced by [MicroGoParser.interpretedStringLit].
+  /// [ctx] the parse tree
+  void exitInterpretedStringLit(InterpretedStringLitContext ctx);
+
   /// Enter a parse tree produced by [MicroGoParser.operandName].
   /// [ctx] the parse tree
   void enterOperandName(OperandNameContext ctx);
@@ -607,13 +656,75 @@ abstract class MicroGoListener extends ParseTreeListener {
   /// [ctx] the parse tree
   void exitFunctionLit(FunctionLitContext ctx);
 
-  /// Enter a parse tree produced by [MicroGoParser.primaryExpr].
+  /// Enter a parse tree produced by the [ConversionExprAlt]
+  /// labeled alternative in [file.parserName>.primaryExpr].
   /// [ctx] the parse tree
-  void enterPrimaryExpr(PrimaryExprContext ctx);
+  void enterConversionExprAlt(ConversionExprAltContext ctx);
 
-  /// Exit a parse tree produced by [MicroGoParser.primaryExpr].
+  /// Exit a parse tree produced by the [ConversionExprAlt]
+  /// labeled alternative in [MicroGoParser.primaryExpr].
   /// [ctx] the parse tree
-  void exitPrimaryExpr(PrimaryExprContext ctx);
+  void exitConversionExprAlt(ConversionExprAltContext ctx);
+
+  /// Enter a parse tree produced by the [SliceExprAlt]
+  /// labeled alternative in [file.parserName>.primaryExpr].
+  /// [ctx] the parse tree
+  void enterSliceExprAlt(SliceExprAltContext ctx);
+
+  /// Exit a parse tree produced by the [SliceExprAlt]
+  /// labeled alternative in [MicroGoParser.primaryExpr].
+  /// [ctx] the parse tree
+  void exitSliceExprAlt(SliceExprAltContext ctx);
+
+  /// Enter a parse tree produced by the [MethodExprAlt]
+  /// labeled alternative in [file.parserName>.primaryExpr].
+  /// [ctx] the parse tree
+  void enterMethodExprAlt(MethodExprAltContext ctx);
+
+  /// Exit a parse tree produced by the [MethodExprAlt]
+  /// labeled alternative in [MicroGoParser.primaryExpr].
+  /// [ctx] the parse tree
+  void exitMethodExprAlt(MethodExprAltContext ctx);
+
+  /// Enter a parse tree produced by the [SelectorExprAlt]
+  /// labeled alternative in [file.parserName>.primaryExpr].
+  /// [ctx] the parse tree
+  void enterSelectorExprAlt(SelectorExprAltContext ctx);
+
+  /// Exit a parse tree produced by the [SelectorExprAlt]
+  /// labeled alternative in [MicroGoParser.primaryExpr].
+  /// [ctx] the parse tree
+  void exitSelectorExprAlt(SelectorExprAltContext ctx);
+
+  /// Enter a parse tree produced by the [ArgumentsExprAlt]
+  /// labeled alternative in [file.parserName>.primaryExpr].
+  /// [ctx] the parse tree
+  void enterArgumentsExprAlt(ArgumentsExprAltContext ctx);
+
+  /// Exit a parse tree produced by the [ArgumentsExprAlt]
+  /// labeled alternative in [MicroGoParser.primaryExpr].
+  /// [ctx] the parse tree
+  void exitArgumentsExprAlt(ArgumentsExprAltContext ctx);
+
+  /// Enter a parse tree produced by the [OperandExprAlt]
+  /// labeled alternative in [file.parserName>.primaryExpr].
+  /// [ctx] the parse tree
+  void enterOperandExprAlt(OperandExprAltContext ctx);
+
+  /// Exit a parse tree produced by the [OperandExprAlt]
+  /// labeled alternative in [MicroGoParser.primaryExpr].
+  /// [ctx] the parse tree
+  void exitOperandExprAlt(OperandExprAltContext ctx);
+
+  /// Enter a parse tree produced by the [IndexExprAlt]
+  /// labeled alternative in [file.parserName>.primaryExpr].
+  /// [ctx] the parse tree
+  void enterIndexExprAlt(IndexExprAltContext ctx);
+
+  /// Exit a parse tree produced by the [IndexExprAlt]
+  /// labeled alternative in [MicroGoParser.primaryExpr].
+  /// [ctx] the parse tree
+  void exitIndexExprAlt(IndexExprAltContext ctx);
 
   /// Enter a parse tree produced by [MicroGoParser.selector].
   /// [ctx] the parse tree
@@ -639,14 +750,6 @@ abstract class MicroGoListener extends ParseTreeListener {
   /// [ctx] the parse tree
   void exitSlice(SliceContext ctx);
 
-  /// Enter a parse tree produced by [MicroGoParser.typeAssertion].
-  /// [ctx] the parse tree
-  void enterTypeAssertion(TypeAssertionContext ctx);
-
-  /// Exit a parse tree produced by [MicroGoParser.typeAssertion].
-  /// [ctx] the parse tree
-  void exitTypeAssertion(TypeAssertionContext ctx);
-
   /// Enter a parse tree produced by [MicroGoParser.arguments].
   /// [ctx] the parse tree
   void enterArguments(ArgumentsContext ctx);
@@ -663,21 +766,65 @@ abstract class MicroGoListener extends ParseTreeListener {
   /// [ctx] the parse tree
   void exitMethodExpr(MethodExprContext ctx);
 
-  /// Enter a parse tree produced by [MicroGoParser.receiverType].
+  /// Enter a parse tree produced by the [MultExprAlt]
+  /// labeled alternative in [file.parserName>.expression].
   /// [ctx] the parse tree
-  void enterReceiverType(ReceiverTypeContext ctx);
+  void enterMultExprAlt(MultExprAltContext ctx);
 
-  /// Exit a parse tree produced by [MicroGoParser.receiverType].
+  /// Exit a parse tree produced by the [MultExprAlt]
+  /// labeled alternative in [MicroGoParser.expression].
   /// [ctx] the parse tree
-  void exitReceiverType(ReceiverTypeContext ctx);
+  void exitMultExprAlt(MultExprAltContext ctx);
 
-  /// Enter a parse tree produced by [MicroGoParser.expression].
+  /// Enter a parse tree produced by the [OrExprAlt]
+  /// labeled alternative in [file.parserName>.expression].
   /// [ctx] the parse tree
-  void enterExpression(ExpressionContext ctx);
+  void enterOrExprAlt(OrExprAltContext ctx);
 
-  /// Exit a parse tree produced by [MicroGoParser.expression].
+  /// Exit a parse tree produced by the [OrExprAlt]
+  /// labeled alternative in [MicroGoParser.expression].
   /// [ctx] the parse tree
-  void exitExpression(ExpressionContext ctx);
+  void exitOrExprAlt(OrExprAltContext ctx);
+
+  /// Enter a parse tree produced by the [AndExprAlt]
+  /// labeled alternative in [file.parserName>.expression].
+  /// [ctx] the parse tree
+  void enterAndExprAlt(AndExprAltContext ctx);
+
+  /// Exit a parse tree produced by the [AndExprAlt]
+  /// labeled alternative in [MicroGoParser.expression].
+  /// [ctx] the parse tree
+  void exitAndExprAlt(AndExprAltContext ctx);
+
+  /// Enter a parse tree produced by the [AddExprAlt]
+  /// labeled alternative in [file.parserName>.expression].
+  /// [ctx] the parse tree
+  void enterAddExprAlt(AddExprAltContext ctx);
+
+  /// Exit a parse tree produced by the [AddExprAlt]
+  /// labeled alternative in [MicroGoParser.expression].
+  /// [ctx] the parse tree
+  void exitAddExprAlt(AddExprAltContext ctx);
+
+  /// Enter a parse tree produced by the [UnaryExprAlt]
+  /// labeled alternative in [file.parserName>.expression].
+  /// [ctx] the parse tree
+  void enterUnaryExprAlt(UnaryExprAltContext ctx);
+
+  /// Exit a parse tree produced by the [UnaryExprAlt]
+  /// labeled alternative in [MicroGoParser.expression].
+  /// [ctx] the parse tree
+  void exitUnaryExprAlt(UnaryExprAltContext ctx);
+
+  /// Enter a parse tree produced by the [RelExprAlt]
+  /// labeled alternative in [file.parserName>.expression].
+  /// [ctx] the parse tree
+  void enterRelExprAlt(RelExprAltContext ctx);
+
+  /// Exit a parse tree produced by the [RelExprAlt]
+  /// labeled alternative in [MicroGoParser.expression].
+  /// [ctx] the parse tree
+  void exitRelExprAlt(RelExprAltContext ctx);
 
   /// Enter a parse tree produced by [MicroGoParser.unaryExpr].
   /// [ctx] the parse tree
@@ -775,13 +922,25 @@ abstract class MicroGoListener extends ParseTreeListener {
   /// [ctx] the parse tree
   void exitExpressionStmt(ExpressionStmtContext ctx);
 
-  /// Enter a parse tree produced by [MicroGoParser.incDecStmt].
+  /// Enter a parse tree produced by the [IncStmtAlt]
+  /// labeled alternative in [file.parserName>.incDecStmt].
   /// [ctx] the parse tree
-  void enterIncDecStmt(IncDecStmtContext ctx);
+  void enterIncStmtAlt(IncStmtAltContext ctx);
 
-  /// Exit a parse tree produced by [MicroGoParser.incDecStmt].
+  /// Exit a parse tree produced by the [IncStmtAlt]
+  /// labeled alternative in [MicroGoParser.incDecStmt].
   /// [ctx] the parse tree
-  void exitIncDecStmt(IncDecStmtContext ctx);
+  void exitIncStmtAlt(IncStmtAltContext ctx);
+
+  /// Enter a parse tree produced by the [DecStmtAlt]
+  /// labeled alternative in [file.parserName>.incDecStmt].
+  /// [ctx] the parse tree
+  void enterDecStmtAlt(DecStmtAltContext ctx);
+
+  /// Exit a parse tree produced by the [DecStmtAlt]
+  /// labeled alternative in [MicroGoParser.incDecStmt].
+  /// [ctx] the parse tree
+  void exitDecStmtAlt(DecStmtAltContext ctx);
 
   /// Enter a parse tree produced by [MicroGoParser.assignment].
   /// [ctx] the parse tree
@@ -902,22 +1061,6 @@ abstract class MicroGoListener extends ParseTreeListener {
   /// Exit a parse tree produced by [MicroGoParser.forClause].
   /// [ctx] the parse tree
   void exitForClause(ForClauseContext ctx);
-
-  /// Enter a parse tree produced by [MicroGoParser.initStmt].
-  /// [ctx] the parse tree
-  void enterInitStmt(InitStmtContext ctx);
-
-  /// Exit a parse tree produced by [MicroGoParser.initStmt].
-  /// [ctx] the parse tree
-  void exitInitStmt(InitStmtContext ctx);
-
-  /// Enter a parse tree produced by [MicroGoParser.postStmt].
-  /// [ctx] the parse tree
-  void enterPostStmt(PostStmtContext ctx);
-
-  /// Exit a parse tree produced by [MicroGoParser.postStmt].
-  /// [ctx] the parse tree
-  void exitPostStmt(PostStmtContext ctx);
 
   /// Enter a parse tree produced by [MicroGoParser.rangeClause].
   /// [ctx] the parse tree

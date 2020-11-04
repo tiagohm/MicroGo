@@ -45,6 +45,7 @@ IDENTIFIER             : LETTER (LETTER | UNICODE_DIGIT)*;
 LSHIFT_ASSIGN          : '<<=';
 RSHIFT_ASSIGN          : '>>=';
 BIT_CLEAR_ASSIGN       : '&^=';
+// https://yourbasic.org/golang/three-dots-ellipsis/
 ELLIPSIS               : '...';
 LOGICAL_AND            : '&&';
 LOGICAL_OR             : '||';
@@ -477,15 +478,22 @@ fragment HEX_MANTISSA
     ;
 
 fragment UNICODE_VALUE
-    : UNICODE_CHAR | LITTLE_U_VALUE | BIG_U_VALUE | ESCAPED_CHAR
+    : UNICODE_CHAR
+    | LITTLE_U_VALUE
+    | BIG_U_VALUE
+    | ESCAPED_CHAR
     ;
 
 fragment ESCAPED_VALUE
-    : BYTE_VALUE | LITTLE_U_VALUE | BIG_U_VALUE | ESCAPED_CHAR
+    : BYTE_VALUE
+    | LITTLE_U_VALUE
+    | BIG_U_VALUE
+    | ESCAPED_CHAR
     ;
 
 fragment BYTE_VALUE
-    : OCTAL_BYTE_VALUE | HEX_BYTE_VALUE
+    : OCTAL_BYTE_VALUE
+    | HEX_BYTE_VALUE
     ;
 
 fragment OCTAL_BYTE_VALUE
@@ -513,7 +521,15 @@ fragment ESCAPED_CHAR
 // Source file
 
 sourceFile
-    : packageClause eos (importDecl eos)* (topLevelDecl eos)*
+    : packageClause eos importDeclList topLevelDeclList
+    ;
+
+importDeclList
+    : (importDecl eos)*  
+    ;
+
+topLevelDeclList
+    : (topLevelDecl eos)*
     ;
 
 // Package clause
@@ -529,27 +545,20 @@ packageName
 // Import declarations
 
 importDecl
-    : IMPORT (importSpec | L_PAREN (importSpec eos)* R_PAREN)
+    : IMPORT importSpec
+    | IMPORT L_PAREN importSpecList R_PAREN
+    ;
+
+importSpecList
+    : (importSpec eos)*
     ;
 
 importSpec
-    : (DOT | packageName)? importPath
+    : packageName? importPath
     ;
 
 importPath
     : stringLit
-    ;
-
-stringLit
-    : rawStringLit | interpretedStringLit
-    ;
-
-rawStringLit
-    : RAW_STRING_LIT
-    ;
-
-interpretedStringLit
-    : INTERPRETED_STRING_LIT
     ;
 
 // Declarations and scope
@@ -565,7 +574,11 @@ declaration
 // Constant declarations
 
 constDecl
-    : CONST (constSpec | L_PAREN (constSpec eos)* R_PAREN)
+    : CONST (constSpec | L_PAREN constSpecList R_PAREN)
+    ;
+
+constSpecList
+    : (constSpec eos)*
     ;
 
 constSpec
@@ -573,7 +586,11 @@ constSpec
     ;
 
 identifierList
-    : IDENTIFIER (COMMA IDENTIFIER)*
+    : identifier (COMMA identifier)*
+    ;
+
+identifier
+    : IDENTIFIER
     ;
 
 expressionList
@@ -583,11 +600,16 @@ expressionList
 // Type declarations
 
 typeDecl
-    : TYPE (typeSpec | L_PAREN (typeSpec eos)* R_PAREN)
+    : TYPE (typeSpec | L_PAREN typeSpecList R_PAREN)
+    ;
+
+typeSpecList
+    : (typeSpec eos)*
     ;
 
 typeSpec
-    : aliasDecl | typeDef
+    : aliasDecl
+    | typeDef
     ;
 
 aliasDecl
@@ -601,7 +623,11 @@ typeDef
 // Variable declarations
 
 varDecl
-    : VAR (varSpec | L_PAREN (varSpec eos)* R_PAREN)
+    : VAR (varSpec | L_PAREN varSpecList R_PAREN)
+    ;
+
+varSpecList
+    : (varSpec eos)*
     ;
 
 varSpec
@@ -611,15 +637,23 @@ varSpec
 // Types
 
 type
-    : typeName | typeLit | L_PAREN type R_PAREN
+    : typeName
+    | typeLit
+    | L_PAREN type R_PAREN
     ;
 
 typeName
-    : IDENTIFIER | qualifiedIdent
+    : identifier
+    | qualifiedIdent
     ;
 
 typeLit
-    : arrayType | structType | pointerType | functionType | interfaceType | sliceType
+    : arrayType
+    | structType
+    | pointerType
+    | functionType
+    | interfaceType
+    | sliceType
     ;
 
 // Array types
@@ -645,11 +679,16 @@ sliceType
 // Struct types
 
 structType
-    : STRUCT L_CURLY (fieldDecl eos)* R_CURLY
+    : STRUCT L_CURLY fieldDeclList R_CURLY
+    ;
+
+fieldDeclList
+    : (fieldDecl eos)*
     ;
 
 fieldDecl
-    : (identifierList type | embeddedField)
+    : {noTerminatorBetween(2)}? identifierList type
+    | embeddedField
     ;
 
 embeddedField
@@ -659,11 +698,7 @@ embeddedField
 // Pointer types
 
 pointerType
-    : STAR baseType
-    ;
-
-baseType
-    : type
+    : STAR type
     ;
 
 // Function types
@@ -673,11 +708,12 @@ functionType
     ;
 
 signature
-    : parameters result?
+    : {noTerminatorAfterParams(1)}? parameters result?
     ;
 
 result
-    : parameters | type
+    : parameters
+    | type
     ;
 
 parameters
@@ -699,7 +735,7 @@ interfaceType
     ;
 
 methodSpec
-    : methodName signature
+    : {noTerminatorAfterParams(2)}? methodName signature
     ;
 
 methodName
@@ -743,11 +779,7 @@ functionBody
 // Method declarations
 
 methodDecl
-    : FUNC receiver methodName signature functionBody?
-    ;
-
-receiver
-    : parameters
+    : FUNC parameters methodName signature functionBody?
     ;
 
 // Expressions
@@ -755,11 +787,15 @@ receiver
 // Operands
 
 operand
-    : literal | operandName | L_PAREN expression R_PAREN
+    : literal
+    | operandName
+    | L_PAREN expression R_PAREN
     ;
 
 literal
-    : basicLit | compositeLit | functionLit
+    : basicLit
+    | compositeLit
+    | functionLit
     ;
 
 basicLit
@@ -798,7 +834,8 @@ hexLit
     ;
 
 floatLit
-    : decimalFloatLit | hexFloatLit
+    : decimalFloatLit
+    | hexFloatLit
     ;
 
 decimalFloatLit
@@ -813,8 +850,22 @@ runeLit
     : RUNE_LIT
     ;
 
+stringLit
+    : rawStringLit
+    | interpretedStringLit
+    ;
+
+rawStringLit
+    : RAW_STRING_LIT
+    ;
+
+interpretedStringLit
+    : INTERPRETED_STRING_LIT
+    ;
+
 operandName
-    : IDENTIFIER | qualifiedIdent
+    : identifier
+    | qualifiedIdent
     ;
 
 // Qualified identifiers
@@ -825,6 +876,7 @@ qualifiedIdent
 
 // Composite literals
 
+// Composite literals construct values for structs, arrays and slices
 compositeLit
     : literalType literalValue
     ;
@@ -850,7 +902,9 @@ keyedElement
     ;
 
 key
-    : fieldName | expression | literalValue
+    : fieldName
+    | expression
+    | literalValue
     ;
 
 fieldName
@@ -858,7 +912,8 @@ fieldName
     ;
 
 element
-    : expression | literalValue
+    : expression
+    | literalValue
     ;
 
 // Function literals
@@ -871,14 +926,13 @@ functionLit
 // Primary expressions
 
 primaryExpr
-    : operand
-    | conversion
-    | methodExpr
-    | primaryExpr selector
-    | primaryExpr index
-    | primaryExpr slice
-    | primaryExpr typeAssertion
-    | primaryExpr arguments
+    : operand # OperandExprAlt
+    | conversion # ConversionExprAlt
+    | methodExpr # MethodExprAlt
+    | primaryExpr selector # SelectorExprAlt
+    | primaryExpr index # IndexExprAlt
+    | primaryExpr slice # SliceExprAlt
+    | primaryExpr arguments # ArgumentsExprAlt
     ;
 
 selector
@@ -891,11 +945,6 @@ index
 
 slice
     : L_BRACKET expression? COLON expression? R_BRACKET
-    | L_BRACKET expression? COLON expression COLON expression R_BRACKET
-    ;
-
-typeAssertion
-    : DOT L_PAREN type R_PAREN
     ;
 
 arguments
@@ -905,22 +954,18 @@ arguments
 // Method expressions
 
 methodExpr
-    : receiverType DOT methodName
-    ;
-
-receiverType
-    : type
+    : type DOT methodName
     ;
 
 // Operators
 
 expression
-    : unaryExpr
-    | expression multOp expression
-    | expression addOp expression
-    | expression relOp expression
-    | expression LOGICAL_AND expression
-    | expression LOGICAL_OR expression
+    : unaryExpr # UnaryExprAlt
+    | expression multOp expression # MultExprAlt
+    | expression addOp expression # AddExprAlt
+    | expression relOp expression # RelExprAlt
+    | expression LOGICAL_AND expression # AndExprAlt
+    | expression LOGICAL_OR expression # OrExprAlt
     ;
 
 unaryExpr
@@ -947,7 +992,7 @@ relOp
 // Conversions
 
 conversion
-    : type L_PAREN expression COMMA? R_PAREN
+    : type L_PAREN expression R_PAREN
     ;
 
 // Statements
@@ -1000,8 +1045,8 @@ expressionStmt
 // IncDec statements
 
 incDecStmt
-    : expression PLUS_PLUS
-    | expression MINUS_MINUS
+    : expression PLUS_PLUS # IncStmtAlt
+    | expression MINUS_MINUS # DecStmtAlt
     ;
 
 // Assignments
@@ -1023,7 +1068,8 @@ ifStmt
 // Switch statements
 
 switchStmt
-    : exprSwitchStmt | typeSwitchStmt
+    : exprSwitchStmt
+    | typeSwitchStmt
     ;
 
 exprSwitchStmt
@@ -1071,19 +1117,11 @@ condition
     ;
 
 forClause
-    : initStmt? SEMI condition? SEMI postStmt?
-    ;
-
-initStmt
-    : simpleStmt
-    ;
-
-postStmt
-    : simpleStmt
+    : simpleStmt? SEMI condition? SEMI simpleStmt?
     ;
 
 rangeClause
-    : (expressionList EQUAL | identifierList SHORT_ASSIGN)? RANGE expression
+    : (identifierList SHORT_ASSIGN)? RANGE expression
     ;
 
 // Return statements

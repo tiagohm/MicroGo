@@ -1,9 +1,10 @@
 // ignore_for_file: unused_import, unused_local_variable, prefer_single_quotes
 import 'package:antlr4/antlr4.dart';
 
-import 'MicroGoBaseParser.dart';
-import 'MicroGoListener.dart';
 import 'MicroGoParser.dart';
+import 'MicroGoListener.dart';
+
+import 'MicroGoBaseParser.dart';
 
 /// This class provides an empty implementation of [MicroGoListener],
 /// which can be extended to create a listener which only needs to handle
@@ -16,6 +17,22 @@ class MicroGoBaseListener implements MicroGoListener {
   /// The default implementation does nothing.
   @override
   void exitSourceFile(SourceFileContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterImportDeclList(ImportDeclListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitImportDeclList(ImportDeclListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterTopLevelDeclList(TopLevelDeclListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitTopLevelDeclList(TopLevelDeclListContext ctx) {}
 
   /// The default implementation does nothing.
   @override
@@ -43,6 +60,14 @@ class MicroGoBaseListener implements MicroGoListener {
 
   /// The default implementation does nothing.
   @override
+  void enterImportSpecList(ImportSpecListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitImportSpecList(ImportSpecListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
   void enterImportSpec(ImportSpecContext ctx) {}
 
   /// The default implementation does nothing.
@@ -56,30 +81,6 @@ class MicroGoBaseListener implements MicroGoListener {
   /// The default implementation does nothing.
   @override
   void exitImportPath(ImportPathContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void enterStringLit(StringLitContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void exitStringLit(StringLitContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void enterRawStringLit(RawStringLitContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void exitRawStringLit(RawStringLitContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void enterInterpretedStringLit(InterpretedStringLitContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void exitInterpretedStringLit(InterpretedStringLitContext ctx) {}
 
   /// The default implementation does nothing.
   @override
@@ -107,6 +108,14 @@ class MicroGoBaseListener implements MicroGoListener {
 
   /// The default implementation does nothing.
   @override
+  void enterConstSpecList(ConstSpecListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitConstSpecList(ConstSpecListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
   void enterConstSpec(ConstSpecContext ctx) {}
 
   /// The default implementation does nothing.
@@ -123,6 +132,14 @@ class MicroGoBaseListener implements MicroGoListener {
 
   /// The default implementation does nothing.
   @override
+  void enterIdentifier(IdentifierContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitIdentifier(IdentifierContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
   void enterExpressionList(ExpressionListContext ctx) {}
 
   /// The default implementation does nothing.
@@ -136,6 +153,14 @@ class MicroGoBaseListener implements MicroGoListener {
   /// The default implementation does nothing.
   @override
   void exitTypeDecl(TypeDeclContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterTypeSpecList(TypeSpecListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitTypeSpecList(TypeSpecListContext ctx) {}
 
   /// The default implementation does nothing.
   @override
@@ -168,6 +193,14 @@ class MicroGoBaseListener implements MicroGoListener {
   /// The default implementation does nothing.
   @override
   void exitVarDecl(VarDeclContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterVarSpecList(VarSpecListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitVarSpecList(VarSpecListContext ctx) {}
 
   /// The default implementation does nothing.
   @override
@@ -243,6 +276,14 @@ class MicroGoBaseListener implements MicroGoListener {
 
   /// The default implementation does nothing.
   @override
+  void enterFieldDeclList(FieldDeclListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitFieldDeclList(FieldDeclListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
   void enterFieldDecl(FieldDeclContext ctx) {}
 
   /// The default implementation does nothing.
@@ -264,14 +305,6 @@ class MicroGoBaseListener implements MicroGoListener {
   /// The default implementation does nothing.
   @override
   void exitPointerType(PointerTypeContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void enterBaseType(BaseTypeContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void exitBaseType(BaseTypeContext ctx) {}
 
   /// The default implementation does nothing.
   @override
@@ -411,14 +444,6 @@ class MicroGoBaseListener implements MicroGoListener {
 
   /// The default implementation does nothing.
   @override
-  void enterReceiver(ReceiverContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void exitReceiver(ReceiverContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
   void enterOperand(OperandContext ctx) {}
 
   /// The default implementation does nothing.
@@ -523,6 +548,30 @@ class MicroGoBaseListener implements MicroGoListener {
 
   /// The default implementation does nothing.
   @override
+  void enterStringLit(StringLitContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitStringLit(StringLitContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterRawStringLit(RawStringLitContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitRawStringLit(RawStringLitContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterInterpretedStringLit(InterpretedStringLitContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitInterpretedStringLit(InterpretedStringLitContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
   void enterOperandName(OperandNameContext ctx) {}
 
   /// The default implementation does nothing.
@@ -611,11 +660,59 @@ class MicroGoBaseListener implements MicroGoListener {
 
   /// The default implementation does nothing.
   @override
-  void enterPrimaryExpr(PrimaryExprContext ctx) {}
+  void enterConversionExprAlt(ConversionExprAltContext ctx) {}
 
   /// The default implementation does nothing.
   @override
-  void exitPrimaryExpr(PrimaryExprContext ctx) {}
+  void exitConversionExprAlt(ConversionExprAltContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterSliceExprAlt(SliceExprAltContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitSliceExprAlt(SliceExprAltContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterMethodExprAlt(MethodExprAltContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitMethodExprAlt(MethodExprAltContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterSelectorExprAlt(SelectorExprAltContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitSelectorExprAlt(SelectorExprAltContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterArgumentsExprAlt(ArgumentsExprAltContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitArgumentsExprAlt(ArgumentsExprAltContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterOperandExprAlt(OperandExprAltContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitOperandExprAlt(OperandExprAltContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterIndexExprAlt(IndexExprAltContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitIndexExprAlt(IndexExprAltContext ctx) {}
 
   /// The default implementation does nothing.
   @override
@@ -643,14 +740,6 @@ class MicroGoBaseListener implements MicroGoListener {
 
   /// The default implementation does nothing.
   @override
-  void enterTypeAssertion(TypeAssertionContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void exitTypeAssertion(TypeAssertionContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
   void enterArguments(ArgumentsContext ctx) {}
 
   /// The default implementation does nothing.
@@ -667,19 +756,51 @@ class MicroGoBaseListener implements MicroGoListener {
 
   /// The default implementation does nothing.
   @override
-  void enterReceiverType(ReceiverTypeContext ctx) {}
+  void enterMultExprAlt(MultExprAltContext ctx) {}
 
   /// The default implementation does nothing.
   @override
-  void exitReceiverType(ReceiverTypeContext ctx) {}
+  void exitMultExprAlt(MultExprAltContext ctx) {}
 
   /// The default implementation does nothing.
   @override
-  void enterExpression(ExpressionContext ctx) {}
+  void enterOrExprAlt(OrExprAltContext ctx) {}
 
   /// The default implementation does nothing.
   @override
-  void exitExpression(ExpressionContext ctx) {}
+  void exitOrExprAlt(OrExprAltContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterAndExprAlt(AndExprAltContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitAndExprAlt(AndExprAltContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterAddExprAlt(AddExprAltContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitAddExprAlt(AddExprAltContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterUnaryExprAlt(UnaryExprAltContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitUnaryExprAlt(UnaryExprAltContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterRelExprAlt(RelExprAltContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitRelExprAlt(RelExprAltContext ctx) {}
 
   /// The default implementation does nothing.
   @override
@@ -779,11 +900,19 @@ class MicroGoBaseListener implements MicroGoListener {
 
   /// The default implementation does nothing.
   @override
-  void enterIncDecStmt(IncDecStmtContext ctx) {}
+  void enterIncStmtAlt(IncStmtAltContext ctx) {}
 
   /// The default implementation does nothing.
   @override
-  void exitIncDecStmt(IncDecStmtContext ctx) {}
+  void exitIncStmtAlt(IncStmtAltContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterDecStmtAlt(DecStmtAltContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitDecStmtAlt(DecStmtAltContext ctx) {}
 
   /// The default implementation does nothing.
   @override
@@ -904,22 +1033,6 @@ class MicroGoBaseListener implements MicroGoListener {
   /// The default implementation does nothing.
   @override
   void exitForClause(ForClauseContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void enterInitStmt(InitStmtContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void exitInitStmt(InitStmtContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void enterPostStmt(PostStmtContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void exitPostStmt(PostStmtContext ctx) {}
 
   /// The default implementation does nothing.
   @override

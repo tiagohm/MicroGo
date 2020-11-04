@@ -2,6 +2,7 @@ import 'package:antlr4/antlr4.dart';
 
 import 'MicroGoLexer.dart';
 
+// https://github.com/antlr/grammars-v4/tree/master/golang/Java
 abstract class MicroGoBaseParser extends Parser {
   MicroGoBaseParser(TokenStream input) : super(input);
 
