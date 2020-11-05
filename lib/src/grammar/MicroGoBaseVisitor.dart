@@ -107,32 +107,12 @@ class MicroGoBaseVisitor<T> extends ParseTreeVisitor<T>
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T visitTypeSpecList(TypeSpecListContext ctx) => visitChildren(ctx);
-
-  /// The default implementation returns the result of calling
-  /// [visitChildren] on [ctx].
-  @override
   T visitTypeSpec(TypeSpecContext ctx) => visitChildren(ctx);
 
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T visitAliasDecl(AliasDeclContext ctx) => visitChildren(ctx);
-
-  /// The default implementation returns the result of calling
-  /// [visitChildren] on [ctx].
-  @override
-  T visitTypeDef(TypeDefContext ctx) => visitChildren(ctx);
-
-  /// The default implementation returns the result of calling
-  /// [visitChildren] on [ctx].
-  @override
   T visitVarDecl(VarDeclContext ctx) => visitChildren(ctx);
-
-  /// The default implementation returns the result of calling
-  /// [visitChildren] on [ctx].
-  @override
-  T visitVarSpecList(VarSpecListContext ctx) => visitChildren(ctx);
 
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
@@ -163,11 +143,6 @@ class MicroGoBaseVisitor<T> extends ParseTreeVisitor<T>
   /// [visitChildren] on [ctx].
   @override
   T visitArrayLength(ArrayLengthContext ctx) => visitChildren(ctx);
-
-  /// The default implementation returns the result of calling
-  /// [visitChildren] on [ctx].
-  @override
-  T visitElementType(ElementTypeContext ctx) => visitChildren(ctx);
 
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
@@ -237,17 +212,23 @@ class MicroGoBaseVisitor<T> extends ParseTreeVisitor<T>
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
+  T visitInterfaceTypeSpecList(InterfaceTypeSpecListContext ctx) =>
+      visitChildren(ctx);
+
+  /// The default implementation returns the result of calling
+  /// [visitChildren] on [ctx].
+  @override
+  T visitInterfaceTypeSpec(InterfaceTypeSpecContext ctx) => visitChildren(ctx);
+
+  /// The default implementation returns the result of calling
+  /// [visitChildren] on [ctx].
+  @override
   T visitMethodSpec(MethodSpecContext ctx) => visitChildren(ctx);
 
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
   T visitMethodName(MethodNameContext ctx) => visitChildren(ctx);
-
-  /// The default implementation returns the result of calling
-  /// [visitChildren] on [ctx].
-  @override
-  T visitInterfaceTypeName(InterfaceTypeNameContext ctx) => visitChildren(ctx);
 
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
@@ -283,6 +264,11 @@ class MicroGoBaseVisitor<T> extends ParseTreeVisitor<T>
   /// [visitChildren] on [ctx].
   @override
   T visitMethodDecl(MethodDeclContext ctx) => visitChildren(ctx);
+
+  /// The default implementation returns the result of calling
+  /// [visitChildren] on [ctx].
+  @override
+  T visitReceiver(ReceiverContext ctx) => visitChildren(ctx);
 
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
@@ -384,6 +370,11 @@ class MicroGoBaseVisitor<T> extends ParseTreeVisitor<T>
   /// [visitChildren] on [ctx].
   @override
   T visitLiteralType(LiteralTypeContext ctx) => visitChildren(ctx);
+
+  /// The default implementation returns the result of calling
+  /// [visitChildren] on [ctx].
+  @override
+  T visitEllipsisArrayType(EllipsisArrayTypeContext ctx) => visitChildren(ctx);
 
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
@@ -603,42 +594,12 @@ class MicroGoBaseVisitor<T> extends ParseTreeVisitor<T>
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T visitExprSwitchStmt(ExprSwitchStmtContext ctx) => visitChildren(ctx);
+  T visitSwitchCaseClause(SwitchCaseClauseContext ctx) => visitChildren(ctx);
 
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T visitExprCaseClause(ExprCaseClauseContext ctx) => visitChildren(ctx);
-
-  /// The default implementation returns the result of calling
-  /// [visitChildren] on [ctx].
-  @override
-  T visitExprSwitchCase(ExprSwitchCaseContext ctx) => visitChildren(ctx);
-
-  /// The default implementation returns the result of calling
-  /// [visitChildren] on [ctx].
-  @override
-  T visitTypeSwitchStmt(TypeSwitchStmtContext ctx) => visitChildren(ctx);
-
-  /// The default implementation returns the result of calling
-  /// [visitChildren] on [ctx].
-  @override
-  T visitTypeSwitchGuard(TypeSwitchGuardContext ctx) => visitChildren(ctx);
-
-  /// The default implementation returns the result of calling
-  /// [visitChildren] on [ctx].
-  @override
-  T visitTypeCaseClause(TypeCaseClauseContext ctx) => visitChildren(ctx);
-
-  /// The default implementation returns the result of calling
-  /// [visitChildren] on [ctx].
-  @override
-  T visitTypeSwitchCase(TypeSwitchCaseContext ctx) => visitChildren(ctx);
-
-  /// The default implementation returns the result of calling
-  /// [visitChildren] on [ctx].
-  @override
-  T visitTypeList(TypeListContext ctx) => visitChildren(ctx);
+  T visitSwitchCase(SwitchCaseContext ctx) => visitChildren(ctx);
 
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].

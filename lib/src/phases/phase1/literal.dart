@@ -2,24 +2,22 @@ import 'package:antlr4/antlr4.dart';
 import 'package:meta/meta.dart';
 
 import 'expression.dart';
+import 'function.dart';
+import 'statement.dart';
 
-abstract class Literal<T> extends OperandExpression {
+abstract class Literal extends OperandExpression {
+  const Literal(
+    ParserRuleContext context,
+  ) : super(context);
+}
+
+abstract class BasicLiteral<T> extends Literal {
   final T value;
 
-  const Literal(
+  const BasicLiteral(
     this.value,
     ParserRuleContext context,
   ) : super(context);
-
-  @override
-  List<Object> get props => [value];
-}
-
-abstract class BasicLiteral<T> extends Literal<T> {
-  const BasicLiteral(
-    T value,
-    ParserRuleContext context,
-  ) : super(value, context);
 }
 
 class NilLiteral extends BasicLiteral {
@@ -58,4 +56,18 @@ class StringLiteral extends BasicLiteral<String> {
 
   @override
   List<Object> get props => [value, raw];
+}
+
+class FunctionLiteral extends Literal {
+  final Signature signature;
+  final Block block;
+
+  const FunctionLiteral(
+    this.signature,
+    this.block, {
+    ParserRuleContext context,
+  }) : super(context);
+
+  @override
+  List<Object> get props => [signature, block];
 }

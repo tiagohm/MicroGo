@@ -156,14 +156,6 @@ class MicroGoBaseListener implements MicroGoListener {
 
   /// The default implementation does nothing.
   @override
-  void enterTypeSpecList(TypeSpecListContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void exitTypeSpecList(TypeSpecListContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
   void enterTypeSpec(TypeSpecContext ctx) {}
 
   /// The default implementation does nothing.
@@ -172,35 +164,11 @@ class MicroGoBaseListener implements MicroGoListener {
 
   /// The default implementation does nothing.
   @override
-  void enterAliasDecl(AliasDeclContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void exitAliasDecl(AliasDeclContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void enterTypeDef(TypeDefContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void exitTypeDef(TypeDefContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
   void enterVarDecl(VarDeclContext ctx) {}
 
   /// The default implementation does nothing.
   @override
   void exitVarDecl(VarDeclContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void enterVarSpecList(VarSpecListContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void exitVarSpecList(VarSpecListContext ctx) {}
 
   /// The default implementation does nothing.
   @override
@@ -249,14 +217,6 @@ class MicroGoBaseListener implements MicroGoListener {
   /// The default implementation does nothing.
   @override
   void exitArrayLength(ArrayLengthContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void enterElementType(ElementTypeContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void exitElementType(ElementTypeContext ctx) {}
 
   /// The default implementation does nothing.
   @override
@@ -364,6 +324,22 @@ class MicroGoBaseListener implements MicroGoListener {
 
   /// The default implementation does nothing.
   @override
+  void enterInterfaceTypeSpecList(InterfaceTypeSpecListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitInterfaceTypeSpecList(InterfaceTypeSpecListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterInterfaceTypeSpec(InterfaceTypeSpecContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitInterfaceTypeSpec(InterfaceTypeSpecContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
   void enterMethodSpec(MethodSpecContext ctx) {}
 
   /// The default implementation does nothing.
@@ -377,14 +353,6 @@ class MicroGoBaseListener implements MicroGoListener {
   /// The default implementation does nothing.
   @override
   void exitMethodName(MethodNameContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void enterInterfaceTypeName(InterfaceTypeNameContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void exitInterfaceTypeName(InterfaceTypeNameContext ctx) {}
 
   /// The default implementation does nothing.
   @override
@@ -441,6 +409,14 @@ class MicroGoBaseListener implements MicroGoListener {
   /// The default implementation does nothing.
   @override
   void exitMethodDecl(MethodDeclContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterReceiver(ReceiverContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitReceiver(ReceiverContext ctx) {}
 
   /// The default implementation does nothing.
   @override
@@ -601,6 +577,14 @@ class MicroGoBaseListener implements MicroGoListener {
   /// The default implementation does nothing.
   @override
   void exitLiteralType(LiteralTypeContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterEllipsisArrayType(EllipsisArrayTypeContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitEllipsisArrayType(EllipsisArrayTypeContext ctx) {}
 
   /// The default implementation does nothing.
   @override
@@ -948,67 +932,19 @@ class MicroGoBaseListener implements MicroGoListener {
 
   /// The default implementation does nothing.
   @override
-  void enterExprSwitchStmt(ExprSwitchStmtContext ctx) {}
+  void enterSwitchCaseClause(SwitchCaseClauseContext ctx) {}
 
   /// The default implementation does nothing.
   @override
-  void exitExprSwitchStmt(ExprSwitchStmtContext ctx) {}
+  void exitSwitchCaseClause(SwitchCaseClauseContext ctx) {}
 
   /// The default implementation does nothing.
   @override
-  void enterExprCaseClause(ExprCaseClauseContext ctx) {}
+  void enterSwitchCase(SwitchCaseContext ctx) {}
 
   /// The default implementation does nothing.
   @override
-  void exitExprCaseClause(ExprCaseClauseContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void enterExprSwitchCase(ExprSwitchCaseContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void exitExprSwitchCase(ExprSwitchCaseContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void enterTypeSwitchStmt(TypeSwitchStmtContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void exitTypeSwitchStmt(TypeSwitchStmtContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void enterTypeSwitchGuard(TypeSwitchGuardContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void exitTypeSwitchGuard(TypeSwitchGuardContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void enterTypeCaseClause(TypeCaseClauseContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void exitTypeCaseClause(TypeCaseClauseContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void enterTypeSwitchCase(TypeSwitchCaseContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void exitTypeSwitchCase(TypeSwitchCaseContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void enterTypeList(TypeListContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void exitTypeList(TypeListContext ctx) {}
+  void exitSwitchCase(SwitchCaseContext ctx) {}
 
   /// The default implementation does nothing.
   @override

@@ -600,34 +600,17 @@ expressionList
 // Type declarations
 
 typeDecl
-    : TYPE (typeSpec | L_PAREN typeSpecList R_PAREN)
-    ;
-
-typeSpecList
-    : (typeSpec eos)*
+    : TYPE (typeSpec | L_PAREN (typeSpec eos)* R_PAREN)
     ;
 
 typeSpec
-    : aliasDecl
-    | typeDef
-    ;
-
-aliasDecl
-    : IDENTIFIER EQUAL type
-    ;
-
-typeDef
-    : IDENTIFIER type
+    : identifier type
     ;
 
 // Variable declarations
 
 varDecl
-    : VAR (varSpec | L_PAREN varSpecList R_PAREN)
-    ;
-
-varSpecList
-    : (varSpec eos)*
+    : VAR (varSpec | L_PAREN (varSpec eos)* R_PAREN)
     ;
 
 varSpec
@@ -639,7 +622,6 @@ varSpec
 type
     : typeName
     | typeLit
-    | L_PAREN type R_PAREN
     ;
 
 typeName
@@ -659,21 +641,17 @@ typeLit
 // Array types
 
 arrayType
-    : L_BRACKET arrayLength R_BRACKET elementType
+    : L_BRACKET arrayLength R_BRACKET type
     ;
 
 arrayLength
     : expression
     ;
 
-elementType
-    : type
-    ;
-
 // Slice types
 
 sliceType
-    : L_BRACKET R_BRACKET elementType
+    : L_BRACKET R_BRACKET type
     ;
 
 // Struct types
@@ -731,7 +709,16 @@ parameterDecl
 // Interface types
 
 interfaceType
-    : INTERFACE L_CURLY ((methodSpec | interfaceTypeName) eos)* R_CURLY
+    : INTERFACE L_CURLY interfaceTypeSpecList R_CURLY
+    ;
+
+interfaceTypeSpecList
+    : (interfaceTypeSpec eos)*
+    ;
+
+interfaceTypeSpec
+    : methodSpec
+    | typeName
     ;
 
 methodSpec
@@ -740,10 +727,6 @@ methodSpec
 
 methodName
     : IDENTIFIER
-    ;
-
-interfaceTypeName
-    : typeName
     ;
 
 // Blocks
@@ -779,7 +762,11 @@ functionBody
 // Method declarations
 
 methodDecl
-    : FUNC parameters methodName signature functionBody?
+    : FUNC receiver methodName signature functionBody?
+    ;
+
+receiver
+    : parameters
     ;
 
 // Expressions
@@ -884,9 +871,13 @@ compositeLit
 literalType
     : structType
     | arrayType
-    | L_BRACKET ELLIPSIS R_BRACKET elementType
+    | ellipsisArrayType
     | sliceType
     | typeName
+    ;
+
+ellipsisArrayType
+    : L_BRACKET ELLIPSIS R_BRACKET type
     ;
 
 literalValue
@@ -1022,6 +1013,7 @@ simpleStmt
 
 // Empty statements
 
+// TODO: Pode ser eos?
 emptyStmt
     : SEMI
     ;
@@ -1068,42 +1060,16 @@ ifStmt
 // Switch statements
 
 switchStmt
-    : exprSwitchStmt
-    | typeSwitchStmt
+    : SWITCH (simpleStmt SEMI)? expression? L_CURLY switchCaseClause* R_CURLY
     ;
 
-exprSwitchStmt
-    : SWITCH (simpleStmt SEMI)? expression? L_CURLY exprCaseClause R_CURLY
+switchCaseClause
+    : switchCase COLON statementList
     ;
 
-exprCaseClause
-    : exprSwitchCase COLON statementList
-    ;
-
-exprSwitchCase
+switchCase
     : CASE expressionList
     | DEFAULT
-    ;
-
-typeSwitchStmt
-    : SWITCH (simpleStmt SEMI)? typeSwitchGuard L_CURLY typeCaseClause R_CURLY
-    ;
-
-typeSwitchGuard
-    : (IDENTIFIER SHORT_ASSIGN)? primaryExpr DOT L_PAREN TYPE R_PAREN
-    ;
-
-typeCaseClause
-    : typeSwitchCase COLON statementList
-    ;
-
-typeSwitchCase
-    : CASE typeList
-    | DEFAULT
-    ;
-
-typeList
-    : type (COMMA type)*
     ;
 
 // For statements

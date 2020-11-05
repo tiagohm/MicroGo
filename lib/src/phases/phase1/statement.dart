@@ -1,8 +1,10 @@
+import 'dart:collection';
+
 import 'package:antlr4/antlr4.dart';
-import 'package:microgo/src/phases/phase1/operator.dart';
 
 import 'expression.dart';
 import 'identifier.dart';
+import 'operator.dart';
 import 'rule.dart';
 
 abstract class Statement extends Rule {
@@ -128,7 +130,7 @@ class WhileStatement extends ForStatement {
 class ForRangeStatement extends Statement {
   final List<Identifier> identifiers;
   final Expression expression;
-  final Statement block;
+  final Block block;
 
   const ForRangeStatement(
     this.identifiers,
@@ -187,20 +189,96 @@ class Assignment extends SimpleStatement {
 
 // If statements
 
-class IfStatement extends SimpleStatement {
+class IfStatement extends Statement {
   final SimpleStatement statement;
   final Expression condition;
-  final Statement block;
-  final Statement else_;
+  final Block block;
+  final Statement else$;
 
   const IfStatement(
     this.condition,
     this.block, {
     this.statement,
-    this.else_,
+    this.else$,
     ParserRuleContext context,
   }) : super(context);
 
   @override
-  List<Object> get props => [statement, condition, block, else_];
+  List<Object> get props => [statement, condition, block, else$];
+}
+
+class Block extends Statement
+    with ListMixin<Statement>
+    implements List<Statement> {
+  final List<Statement> statements;
+
+  const Block(
+    this.statements, {
+    ParserRuleContext context,
+  }) : super(context);
+
+  @override
+  List<Object> get props => [statements];
+
+  @override
+  int get length => statements.length;
+
+  @override
+  Statement operator [](int index) => statements[index];
+
+  @override
+  void operator []=(int index, Statement value) {
+    throw UnimplementedError('Not supported');
+  }
+
+  @override
+  set length(int newLength) {
+    throw UnimplementedError('Not supported');
+  }
+}
+
+class ShortVarAssignment extends SimpleStatement {
+  final List<Identifier> identifiers;
+  final List<Expression> expressions;
+
+  const ShortVarAssignment(
+    this.identifiers,
+    this.expressions, {
+    ParserRuleContext context,
+  }) : super(context);
+
+  @override
+  List<Object> get props => [identifiers, expressions];
+}
+
+class SwitchStatement extends Statement {
+  final SimpleStatement statement;
+  final Expression expression;
+  final List<SwitchCase> cases;
+
+  const SwitchStatement({
+    this.statement,
+    this.expression,
+    this.cases = const [],
+    ParserRuleContext context,
+  }) : super(context);
+
+  @override
+  List<Object> get props => [statement, expression, cases];
+}
+
+class SwitchCase extends Rule {
+  final List<Expression> expressions;
+  final List<Statement> statements;
+
+  bool get isDefault => expressions == null || expressions.isEmpty;
+
+  const SwitchCase(
+    this.expressions,
+    this.statements, {
+    ParserRuleContext context,
+  }) : super(context);
+
+  @override
+  List<Object> get props => [expressions, statements];
 }

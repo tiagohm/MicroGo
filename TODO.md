@@ -2,15 +2,26 @@
 
 ## Dropped Features
 
-* Dot package
-* Map type
-* Channels support
-* Defer keyword
-* Type assertion (Can be implemented in the future)
-* Type Switch (Can be implemented in the future)
+* Dot package (is it necessary?)
+* Map type (surely that it can not be implemented)
+* Channels support (same as above)
+* Defer keyword (same as above)
+* Type assertion (Can be implemented in the future?)
+* Type Switch (Can be implemented in the future?)
+* Type Alias (it is not necessary)
 
 ## Enum type support
 * https://github.com/golang/go/issues/19814
+
+```go
+enum Status int8 {
+    OFF
+    ON
+}
+
+status := Status.OFF
+index := int8(status) // 0
+```
 
 ## k, M, G, etc
 

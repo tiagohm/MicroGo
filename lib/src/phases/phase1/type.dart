@@ -1,5 +1,6 @@
 import 'package:antlr4/antlr4.dart';
 
+import 'expression.dart';
 import 'function.dart';
 import 'identifier.dart';
 import 'rule.dart';
@@ -22,7 +23,7 @@ final integerTypeNameRegex = RegExp(r'^u?int(\d+)$');
 final floatTypeNameRegex = RegExp(r'float(\d+)$');
 
 /// A [DataType] represented by a [name].
-class NamedType extends DataType {
+class NamedType extends LiteralType {
   final Identifier name;
 
   const NamedType(
@@ -120,23 +121,10 @@ class BooleanType extends PrimitiveType {
   }) : super(name, context);
 }
 
-// TODO: Onde é usado?
-class CastType extends DataType {
-  final DataType type;
-
-  const CastType(
-    this.type, {
-    ParserRuleContext context,
-  }) : super(context);
-
-  @override
-  List<Object> get props => [type];
-}
-
 /// A struct is a sequence of named elements, called [Field]s,
 ///  each of which has a name and a type.
 class StructType extends LiteralType {
-  final List<Field> fields;
+  final List<StructField> fields;
 
   const StructType(
     this.fields, {
@@ -148,15 +136,15 @@ class StructType extends LiteralType {
 }
 
 /// A named element of [StructType].
-abstract class Field extends Rule {
-  const Field(ParserRuleContext context) : super(context);
+abstract class StructField extends Rule {
+  const StructField(ParserRuleContext context) : super(context);
 
   @override
   List<Object> get props => [];
 }
 
 /// A [Field] with a [name] specified explicitly and a [type].
-class NamedField extends Field {
+class NamedField extends StructField {
   final Identifier name;
   final DataType type;
 
@@ -172,7 +160,7 @@ class NamedField extends Field {
 
 /// A [Field] with a name specified implicitly by a [type]
 /// or a [pointer] to a non-interface [type].
-class EmbeddedField extends Field {
+class EmbeddedField extends StructField {
   final DataType type;
   final bool pointer;
 
@@ -215,8 +203,8 @@ class FunctionType extends LiteralType {
   List<Object> get props => [signature];
 }
 
-class PointerType extends LiteralType {
-  final LiteralType type;
+class PointerType extends DataType {
+  final Type type;
 
   const PointerType(
     this.type, {
@@ -225,4 +213,83 @@ class PointerType extends LiteralType {
 
   @override
   List<Object> get props => [type];
+}
+
+class SliceType extends LiteralType {
+  final Type type;
+
+  const SliceType(
+    this.type, {
+    ParserRuleContext context,
+  }) : super(context);
+
+  @override
+  List<Object> get props => [type];
+}
+
+class InterfaceType extends DataType {
+  final List<InterfaceField> fields;
+
+  const InterfaceType(
+    this.fields, {
+    ParserRuleContext context,
+  }) : super(context);
+
+  @override
+  List<Object> get props => [fields];
+}
+
+/// A named element of [InterfaceType].
+abstract class InterfaceField extends Rule {
+  const InterfaceField(ParserRuleContext context) : super(context);
+
+  @override
+  List<Object> get props => [];
+}
+
+class MethodField extends InterfaceField {
+  final Identifier name;
+  final Signature signature;
+
+  const MethodField(
+    this.name,
+    this.signature, {
+    ParserRuleContext context,
+  }) : super(context);
+
+  @override
+  List<Object> get props => [name, signature];
+}
+
+class TypeField extends InterfaceField {
+  final Type type;
+
+  const TypeField(
+    this.type, {
+    ParserRuleContext context,
+  }) : super(context);
+
+  @override
+  List<Object> get props => [type];
+}
+
+class ArrayType extends LiteralType {
+  final Expression length;
+  final DataType type;
+
+  const ArrayType(
+    this.length,
+    this.type, {
+    ParserRuleContext context,
+  }) : super(context);
+
+  @override
+  List<Object> get props => [length, type];
+}
+
+class EllipsisArrayType extends ArrayType {
+  const EllipsisArrayType(
+    DataType type, {
+    ParserRuleContext context,
+  }) : super(null, type, context: context);
 }

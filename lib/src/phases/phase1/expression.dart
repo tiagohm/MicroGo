@@ -1,15 +1,12 @@
 import 'package:antlr4/antlr4.dart';
-import 'package:microgo/src/phases/phase1/operator.dart';
 
 import 'identifier.dart';
-import 'rule.dart';
+import 'operator.dart';
+import 'statement.dart';
 import 'type.dart';
 
-abstract class Expression extends Rule {
+abstract class Expression extends SimpleStatement {
   const Expression(ParserRuleContext context) : super(context);
-
-  @override
-  List<Object> get props => [context];
 }
 
 abstract class PrimaryExpression extends Expression {
