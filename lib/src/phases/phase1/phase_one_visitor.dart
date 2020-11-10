@@ -48,22 +48,53 @@ class PhaseOneVisitor extends MicroGoBaseVisitor {
     return visitSpreadList(ctx.importDecls());
   }
 
-  @override
-  dynamic visitTopLevelDeclList(TopLevelDeclListContext ctx) {
-    // TODO: implement visitTopLevelDeclList
-    return super.visitTopLevelDeclList(ctx);
-  }
-
   // Package clause
 
   @override
   Package visitPackageClause(PackageClauseContext ctx) {
-    return Package(visit(ctx.packageName()), context: ctx);
+    return Package(
+      visit(ctx.packageName()),
+      parameters: visit(ctx.parameters()) ?? const [],
+      arguments: visit(ctx.packageArgument()),
+      body: visit(ctx.packageBody()),
+      context: ctx,
+    );
   }
 
   @override
-  String visitPackageName(PackageNameContext ctx) {
-    return ctx.IDENTIFIER().text;
+  Identifier visitPackageName(PackageNameContext ctx) {
+    return SimpleIdentifier(ctx.IDENTIFIER().text, context: ctx);
+  }
+
+  @override
+  List<PackageArgument> visitPackageArgument(PackageArgumentContext ctx) {
+    return visit(ctx.packageArgumentDeclList());
+  }
+
+  @override
+  List<PackageArgument> visitPackageArgumentDeclList(
+      PackageArgumentDeclListContext ctx) {
+    return visitList(ctx.packageArgumentDecls());
+  }
+
+  @override
+  PackageArgument visitPackageArgumentDecl(PackageArgumentDeclContext ctx) {
+    return PackageArgument(
+      visit(ctx.packageAlias()),
+      visit(ctx.packageName()),
+      visit(ctx.arguments()),
+      context: ctx,
+    );
+  }
+
+  @override
+  Identifier visitPackageAlias(PackageAliasContext ctx) {
+    return SimpleIdentifier(ctx.IDENTIFIER().text, context: ctx);
+  }
+
+  @override
+  List<Declaration> visitPackageBody(PackageBodyContext ctx) {
+    return visit(ctx.packageLevelDeclList());
   }
 
   // Import declarations
@@ -84,9 +115,7 @@ class PhaseOneVisitor extends MicroGoBaseVisitor {
 
   @override
   Import visitImportSpec(ImportSpecContext ctx) {
-    final name = visit(ctx.packageName());
-    final path = visit(ctx.importPath());
-    return Import(path, name: name, context: ctx);
+    return Import(visit(ctx.importPath()), context: ctx);
   }
 
   @override
@@ -97,9 +126,13 @@ class PhaseOneVisitor extends MicroGoBaseVisitor {
   // Declarations and scope
 
   @override
-  dynamic visitTopLevelDecl(TopLevelDeclContext ctx) {
-    // TODO: implement visitTopLevelDecl
-    return super.visitTopLevelDecl(ctx);
+  List<Declaration> visitPackageLevelDeclList(PackageLevelDeclListContext ctx) {
+    return visitList(ctx.packageLevelDecls());
+  }
+
+  @override
+  Declaration visitPackageLevelDecl(PackageLevelDeclContext ctx) {
+    return super.visitPackageLevelDecl(ctx);
   }
 
   @override
@@ -110,21 +143,27 @@ class PhaseOneVisitor extends MicroGoBaseVisitor {
   // Constant declarations
 
   @override
-  dynamic visitConstDecl(ConstDeclContext ctx) {
-    // TODO: implement visitConstDecl
-    return super.visitConstDecl(ctx);
+  List<Declaration> visitConstDecl(ConstDeclContext ctx) {
+    if (ctx.constSpec() != null) {
+      return [visit(ctx.constSpec())];
+    } else {
+      return visit(ctx.constSpecList());
+    }
   }
 
   @override
-  dynamic visitConstSpecList(ConstSpecListContext ctx) {
-    // TODO: implement visitConstSpecList
-    return super.visitConstSpecList(ctx);
+  List<Declaration> visitConstSpecList(ConstSpecListContext ctx) {
+    return visitList(ctx.constSpecs());
   }
 
   @override
-  dynamic visitConstSpec(ConstSpecContext ctx) {
-    // TODO: implement visitConstSpec
-    return super.visitConstSpec(ctx);
+  Declaration visitConstSpec(ConstSpecContext ctx) {
+    return ConstDeclaration(
+      visit(ctx.identifierList()),
+      visit(ctx.expressionList()),
+      type: visit(ctx.type()),
+      context: ctx,
+    );
   }
 
   @override
@@ -161,15 +200,27 @@ class PhaseOneVisitor extends MicroGoBaseVisitor {
   // Variable declarations
 
   @override
-  dynamic visitVarDecl(VarDeclContext ctx) {
-    // TODO: implement visitVarDecl
-    return super.visitVarDecl(ctx);
+  List<VarDeclaration> visitVarDecl(VarDeclContext ctx) {
+    if (ctx.varSpec() != null) {
+      return [visit(ctx.varSpec())];
+    } else {
+      return visit(ctx.varSpecList());
+    }
   }
 
   @override
-  dynamic visitVarSpec(VarSpecContext ctx) {
-    // TODO: implement visitVarSpec
-    return super.visitVarSpec(ctx);
+  List<VarDeclaration> visitVarSpecList(VarSpecListContext ctx) {
+    return visitList(ctx.varSpecs());
+  }
+
+  @override
+  VarDeclaration visitVarSpec(VarSpecContext ctx) {
+    return VarDeclaration(
+      visit(ctx.identifierList()),
+      visit(ctx.expressionList()) ?? const [],
+      type: visit(ctx.type()),
+      context: ctx,
+    );
   }
 
   // Types
@@ -482,7 +533,7 @@ class PhaseOneVisitor extends MicroGoBaseVisitor {
 
   @override
   Literal visitHexFloatLit(HexFloatLitContext ctx) {
-    // TODO: implement visitMethodDecl
+    // TODO: implement visitHexFloatLit
     return super.visitHexFloatLit(ctx);
   }
 
@@ -539,14 +590,16 @@ class PhaseOneVisitor extends MicroGoBaseVisitor {
   // Composite literals
 
   @override
-  dynamic visitCompositeLit(CompositeLitContext ctx) {
-    // TODO: implement visitCompositeLit
-    return super.visitCompositeLit(ctx);
+  CompositeLiteral visitCompositeLit(CompositeLitContext ctx) {
+    return CompositeLiteral(
+      visit(ctx.literalType()),
+      visit(ctx.literalValue()),
+      context: ctx,
+    );
   }
 
   @override
-  dynamic visitLiteralType(LiteralTypeContext ctx) {
-    // TODO: implement visitLiteralType
+  DataType visitLiteralType(LiteralTypeContext ctx) {
     return super.visitLiteralType(ctx);
   }
 
@@ -556,37 +609,45 @@ class PhaseOneVisitor extends MicroGoBaseVisitor {
   }
 
   @override
-  dynamic visitLiteralValue(LiteralValueContext ctx) {
-    // TODO: implement visitLiteralValue
-    return super.visitLiteralValue(ctx);
+  CompositeValue visitLiteralValue(LiteralValueContext ctx) {
+    return CompositeValue(visit(ctx.elementList()), context: ctx);
   }
 
   @override
-  dynamic visitElementList(ElementListContext ctx) {
-    // TODO: implement visitElementList
-    return super.visitElementList(ctx);
+  List<Element> visitElementList(ElementListContext ctx) {
+    return visitList(ctx.keyedElements());
   }
 
   @override
-  dynamic visitKeyedElement(KeyedElementContext ctx) {
-    // TODO: implement visitKeyedElement
-    return super.visitKeyedElement(ctx);
+  KeyedElement visitKeyedElement(KeyedElementContext ctx) {
+    return KeyedElement(
+      visit(ctx.element()),
+      key: visit(ctx.key()),
+      context: ctx,
+    );
   }
 
   @override
-  dynamic visitKey(KeyContext ctx) {
-    // TODO: implement visitKey
-    return super.visitKey(ctx);
+  Key visitKey(KeyContext ctx) {
+    if (ctx.fieldName() != null) {
+      return FieldKey(visit(ctx.fieldName()), context: ctx);
+    } else {
+      return IndexedKey(visit(ctx.fieldIndex()), context: ctx);
+    }
   }
 
   @override
   Identifier visitFieldName(FieldNameContext ctx) {
-    return SimpleIdentifier(ctx.IDENTIFIER().text);
+    return SimpleIdentifier(ctx.IDENTIFIER().text, context: ctx);
+  }
+
+  @override
+  Expression visitFieldIndex(FieldIndexContext ctx) {
+    return super.visitFieldIndex(ctx);
   }
 
   @override
   dynamic visitElement(ElementContext ctx) {
-    // TODO: implement visitElement
     return super.visitElement(ctx);
   }
 
@@ -658,15 +719,25 @@ class PhaseOneVisitor extends MicroGoBaseVisitor {
   }
 
   @override
-  Expression visitArgumentsExprAlt(ArgumentsExprAltContext ctx) {
-    // TODO: implement visitArgumentsExprAlt
-    return super.visitArgumentsExprAlt(ctx);
+  Expression visitCallExprAlt(CallExprAltContext ctx) {
+    return CallExpression(
+      visit(ctx.primaryExpr()),
+      arguments: visit(ctx.arguments()),
+      context: ctx,
+    );
   }
 
   @override
-  dynamic visitArguments(ArgumentsContext ctx) {
-    // TODO: implement visitArguments
-    return super.visitArguments(ctx);
+  List<Argument> visitArguments(ArgumentsContext ctx) {
+    final expressions = visit(ctx.expressionList()) ?? const [];
+    return [
+      for (var i = 0; i < expressions.length; i++)
+        Argument(
+          expressions[i],
+          ellipsis: i == expressions.length - 1 && ctx.ELLIPSIS() != null,
+          context: expressions[i].context,
+        )
+    ];
   }
 
   @override

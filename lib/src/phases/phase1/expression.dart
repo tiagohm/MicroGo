@@ -1,5 +1,6 @@
 import 'package:antlr4/antlr4.dart';
 
+import 'function.dart';
 import 'identifier.dart';
 import 'operator.dart';
 import 'statement.dart';
@@ -198,4 +199,18 @@ class TypeAssertionExpression extends PrimaryExpression {
 
   @override
   List<Object> get props => [type];
+}
+
+class CallExpression extends PrimaryExpression {
+  final PrimaryExpression primary;
+  final List<Argument> arguments;
+
+  const CallExpression(
+    this.primary, {
+    this.arguments = const [],
+    ParserRuleContext context,
+  }) : super(context);
+
+  @override
+  List<Object> get props => [primary, arguments];
 }

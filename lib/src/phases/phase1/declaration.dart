@@ -1,8 +1,10 @@
 import 'package:antlr4/antlr4.dart';
 
+import 'expression.dart';
 import 'function.dart';
 import 'identifier.dart';
 import 'statement.dart';
+import 'type.dart';
 
 abstract class Declaration extends Statement {
   const Declaration(ParserRuleContext context) : super(context);
@@ -51,4 +53,36 @@ class TypeDeclaration extends Declaration {
 
   @override
   List<Object> get props => [name, type];
+}
+
+class ConstDeclaration extends Declaration {
+  final List<Identifier> identifiers;
+  final List<Expression> expressions;
+  final DataType type;
+
+  const ConstDeclaration(
+    this.identifiers,
+    this.expressions, {
+    this.type,
+    ParserRuleContext context,
+  }) : super(context);
+
+  @override
+  List<Object> get props => [identifiers, expressions, type];
+}
+
+class VarDeclaration extends Declaration {
+  final List<Identifier> identifiers;
+  final List<Expression> expressions;
+  final DataType type;
+
+  const VarDeclaration(
+    this.identifiers,
+    this.expressions, {
+    this.type,
+    ParserRuleContext context,
+  }) : super(context);
+
+  @override
+  List<Object> get props => [identifiers, expressions, type];
 }

@@ -23,7 +23,7 @@ final integerTypeNameRegex = RegExp(r'^u?int(\d+)$');
 final floatTypeNameRegex = RegExp(r'float(\d+)$');
 
 /// A [DataType] represented by a [name].
-class NamedType extends LiteralType {
+class NamedType extends DataType {
   final Identifier name;
 
   const NamedType(
@@ -50,21 +50,21 @@ class NamedType extends LiteralType {
         final bits = int.parse(m.group(1));
         final unsigned = bits <= 1 || name[0] == 'u';
 
-        if (bits > 1 && bits <= 64) {
+        if (bits == 8 || bits == 16 || bits == 32 || bits == 64) {
           return IntegerType(bits, unsigned, identifier, context: context);
         } else if (bits == 1) {
           return BooleanType(identifier, context: context);
         }
-      }
+      } else {
+        // Float
+        m = floatTypeNameRegex.firstMatch(name);
 
-      // Float
-      m = floatTypeNameRegex.firstMatch(name);
+        if (m != null) {
+          final bits = int.parse(m.group(1));
 
-      if (m != null) {
-        final bits = int.parse(m.group(1));
-
-        if (bits == 32 || bits == 64) {
-          return FloatType(bits, identifier, context: context);
+          if (bits == 32 || bits == 64) {
+            return FloatType(bits, identifier, context: context);
+          }
         }
       }
     }

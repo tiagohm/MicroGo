@@ -27,17 +27,45 @@ class MicroGoBaseVisitor<T> extends ParseTreeVisitor<T>
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T visitTopLevelDeclList(TopLevelDeclListContext ctx) => visitChildren(ctx);
-
-  /// The default implementation returns the result of calling
-  /// [visitChildren] on [ctx].
-  @override
   T visitPackageClause(PackageClauseContext ctx) => visitChildren(ctx);
 
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
   T visitPackageName(PackageNameContext ctx) => visitChildren(ctx);
+
+  /// The default implementation returns the result of calling
+  /// [visitChildren] on [ctx].
+  @override
+  T visitPackageArgument(PackageArgumentContext ctx) => visitChildren(ctx);
+
+  /// The default implementation returns the result of calling
+  /// [visitChildren] on [ctx].
+  @override
+  T visitPackageArgumentDeclList(PackageArgumentDeclListContext ctx) =>
+      visitChildren(ctx);
+
+  /// The default implementation returns the result of calling
+  /// [visitChildren] on [ctx].
+  @override
+  T visitPackageArgumentDecl(PackageArgumentDeclContext ctx) =>
+      visitChildren(ctx);
+
+  /// The default implementation returns the result of calling
+  /// [visitChildren] on [ctx].
+  @override
+  T visitPackageAlias(PackageAliasContext ctx) => visitChildren(ctx);
+
+  /// The default implementation returns the result of calling
+  /// [visitChildren] on [ctx].
+  @override
+  T visitPackageBody(PackageBodyContext ctx) => visitChildren(ctx);
+
+  /// The default implementation returns the result of calling
+  /// [visitChildren] on [ctx].
+  @override
+  T visitPackageLevelDeclList(PackageLevelDeclListContext ctx) =>
+      visitChildren(ctx);
 
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
@@ -62,7 +90,7 @@ class MicroGoBaseVisitor<T> extends ParseTreeVisitor<T>
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T visitTopLevelDecl(TopLevelDeclContext ctx) => visitChildren(ctx);
+  T visitPackageLevelDecl(PackageLevelDeclContext ctx) => visitChildren(ctx);
 
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
@@ -113,6 +141,11 @@ class MicroGoBaseVisitor<T> extends ParseTreeVisitor<T>
   /// [visitChildren] on [ctx].
   @override
   T visitVarDecl(VarDeclContext ctx) => visitChildren(ctx);
+
+  /// The default implementation returns the result of calling
+  /// [visitChildren] on [ctx].
+  @override
+  T visitVarSpecList(VarSpecListContext ctx) => visitChildren(ctx);
 
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
@@ -404,6 +437,11 @@ class MicroGoBaseVisitor<T> extends ParseTreeVisitor<T>
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
+  T visitFieldIndex(FieldIndexContext ctx) => visitChildren(ctx);
+
+  /// The default implementation returns the result of calling
+  /// [visitChildren] on [ctx].
+  @override
   T visitElement(ElementContext ctx) => visitChildren(ctx);
 
   /// The default implementation returns the result of calling
@@ -429,12 +467,12 @@ class MicroGoBaseVisitor<T> extends ParseTreeVisitor<T>
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T visitSelectorExprAlt(SelectorExprAltContext ctx) => visitChildren(ctx);
+  T visitCallExprAlt(CallExprAltContext ctx) => visitChildren(ctx);
 
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].
   @override
-  T visitArgumentsExprAlt(ArgumentsExprAltContext ctx) => visitChildren(ctx);
+  T visitSelectorExprAlt(SelectorExprAltContext ctx) => visitChildren(ctx);
 
   /// The default implementation returns the result of calling
   /// [visitChildren] on [ctx].

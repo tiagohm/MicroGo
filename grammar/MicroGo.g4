@@ -521,25 +521,45 @@ fragment ESCAPED_CHAR
 // Source file
 
 sourceFile
-    : packageClause eos importDeclList topLevelDeclList
+    : importDeclList packageClause eos
     ;
 
 importDeclList
     : (importDecl eos)*  
     ;
 
-topLevelDeclList
-    : (topLevelDecl eos)*
-    ;
-
 // Package clause
 
 packageClause
-    : PACKAGE packageName
+    : PACKAGE packageName parameters? packageArgument? packageBody
     ;
 
 packageName
     : IDENTIFIER
+    ;
+
+packageArgument
+    : COLON packageArgumentDeclList
+    ;
+
+packageArgumentDeclList
+    : packageArgumentDecl (COMMA packageArgumentDecl)*
+    ;
+
+packageArgumentDecl
+    : packageAlias packageName arguments
+    ;
+
+packageAlias
+    : IDENTIFIER
+    ;
+
+packageBody
+    : L_CURLY packageLevelDeclList R_CURLY
+    ;
+
+packageLevelDeclList
+    : (packageLevelDecl eos)*
     ;
 
 // Import declarations
@@ -554,7 +574,7 @@ importSpecList
     ;
 
 importSpec
-    : packageName? importPath
+    : importPath
     ;
 
 importPath
@@ -563,7 +583,7 @@ importPath
 
 // Declarations and scope
 
-topLevelDecl
+packageLevelDecl
     : declaration | functionDecl | methodDecl
     ;
 
@@ -582,7 +602,7 @@ constSpecList
     ;
 
 constSpec
-    : identifierList (type? EQUAL expressionList)?
+    : identifierList type? EQUAL expressionList
     ;
 
 identifierList
@@ -610,9 +630,16 @@ typeSpec
 // Variable declarations
 
 varDecl
-    : VAR (varSpec | L_PAREN (varSpec eos)* R_PAREN)
+    : VAR (varSpec | L_PAREN varSpecList R_PAREN)
     ;
 
+varSpecList
+    : (varSpec eos)*
+    ;
+
+// var x int
+// var x int = 0
+// var x = 0
 varSpec
     : identifierList (type (EQUAL expressionList)? | EQUAL expressionList)
     ;
@@ -894,12 +921,15 @@ keyedElement
 
 key
     : fieldName
-    | expression
-    | literalValue
+    | fieldIndex
     ;
 
 fieldName
     : IDENTIFIER
+    ;
+
+fieldIndex
+    : expression
     ;
 
 element
@@ -923,7 +953,7 @@ primaryExpr
     | primaryExpr selector # SelectorExprAlt
     | primaryExpr index # IndexExprAlt
     | primaryExpr slice # SliceExprAlt
-    | primaryExpr arguments # ArgumentsExprAlt
+    | primaryExpr arguments # CallExprAlt
     ;
 
 selector
@@ -939,7 +969,7 @@ slice
     ;
 
 arguments
-    : L_PAREN ((expressionList | type (COMMA expressionList)?) ELLIPSIS? COMMA?)? R_PAREN
+    : L_PAREN (expressionList ELLIPSIS? COMMA?)? R_PAREN
     ;
 
 // Method expressions

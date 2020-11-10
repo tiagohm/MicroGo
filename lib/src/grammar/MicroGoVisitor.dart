@@ -21,11 +21,6 @@ abstract class MicroGoVisitor<T> extends ParseTreeVisitor<T> {
   /// Return the visitor result.
   T visitImportDeclList(ImportDeclListContext ctx);
 
-  /// Visit a parse tree produced by [MicroGoParser.topLevelDeclList].
-  /// [ctx] the parse tree.
-  /// Return the visitor result.
-  T visitTopLevelDeclList(TopLevelDeclListContext ctx);
-
   /// Visit a parse tree produced by [MicroGoParser.packageClause].
   /// [ctx] the parse tree.
   /// Return the visitor result.
@@ -35,6 +30,36 @@ abstract class MicroGoVisitor<T> extends ParseTreeVisitor<T> {
   /// [ctx] the parse tree.
   /// Return the visitor result.
   T visitPackageName(PackageNameContext ctx);
+
+  /// Visit a parse tree produced by [MicroGoParser.packageArgument].
+  /// [ctx] the parse tree.
+  /// Return the visitor result.
+  T visitPackageArgument(PackageArgumentContext ctx);
+
+  /// Visit a parse tree produced by [MicroGoParser.packageArgumentDeclList].
+  /// [ctx] the parse tree.
+  /// Return the visitor result.
+  T visitPackageArgumentDeclList(PackageArgumentDeclListContext ctx);
+
+  /// Visit a parse tree produced by [MicroGoParser.packageArgumentDecl].
+  /// [ctx] the parse tree.
+  /// Return the visitor result.
+  T visitPackageArgumentDecl(PackageArgumentDeclContext ctx);
+
+  /// Visit a parse tree produced by [MicroGoParser.packageAlias].
+  /// [ctx] the parse tree.
+  /// Return the visitor result.
+  T visitPackageAlias(PackageAliasContext ctx);
+
+  /// Visit a parse tree produced by [MicroGoParser.packageBody].
+  /// [ctx] the parse tree.
+  /// Return the visitor result.
+  T visitPackageBody(PackageBodyContext ctx);
+
+  /// Visit a parse tree produced by [MicroGoParser.packageLevelDeclList].
+  /// [ctx] the parse tree.
+  /// Return the visitor result.
+  T visitPackageLevelDeclList(PackageLevelDeclListContext ctx);
 
   /// Visit a parse tree produced by [MicroGoParser.importDecl].
   /// [ctx] the parse tree.
@@ -56,10 +81,10 @@ abstract class MicroGoVisitor<T> extends ParseTreeVisitor<T> {
   /// Return the visitor result.
   T visitImportPath(ImportPathContext ctx);
 
-  /// Visit a parse tree produced by [MicroGoParser.topLevelDecl].
+  /// Visit a parse tree produced by [MicroGoParser.packageLevelDecl].
   /// [ctx] the parse tree.
   /// Return the visitor result.
-  T visitTopLevelDecl(TopLevelDeclContext ctx);
+  T visitPackageLevelDecl(PackageLevelDeclContext ctx);
 
   /// Visit a parse tree produced by [MicroGoParser.declaration].
   /// [ctx] the parse tree.
@@ -110,6 +135,11 @@ abstract class MicroGoVisitor<T> extends ParseTreeVisitor<T> {
   /// [ctx] the parse tree.
   /// Return the visitor result.
   T visitVarDecl(VarDeclContext ctx);
+
+  /// Visit a parse tree produced by [MicroGoParser.varSpecList].
+  /// [ctx] the parse tree.
+  /// Return the visitor result.
+  T visitVarSpecList(VarSpecListContext ctx);
 
   /// Visit a parse tree produced by [MicroGoParser.varSpec].
   /// [ctx] the parse tree.
@@ -396,6 +426,11 @@ abstract class MicroGoVisitor<T> extends ParseTreeVisitor<T> {
   /// Return the visitor result.
   T visitFieldName(FieldNameContext ctx);
 
+  /// Visit a parse tree produced by [MicroGoParser.fieldIndex].
+  /// [ctx] the parse tree.
+  /// Return the visitor result.
+  T visitFieldIndex(FieldIndexContext ctx);
+
   /// Visit a parse tree produced by [MicroGoParser.element].
   /// [ctx] the parse tree.
   /// Return the visitor result.
@@ -424,17 +459,17 @@ abstract class MicroGoVisitor<T> extends ParseTreeVisitor<T> {
   /// Return the visitor result.
   T visitMethodExprAlt(MethodExprAltContext ctx);
 
+  /// Visit a parse tree produced by the {@code CallExprAlt}
+  /// labeled alternative in {@link MicroGoParser#primaryExpr}.
+  /// [ctx] the parse tree.
+  /// Return the visitor result.
+  T visitCallExprAlt(CallExprAltContext ctx);
+
   /// Visit a parse tree produced by the {@code SelectorExprAlt}
   /// labeled alternative in {@link MicroGoParser#primaryExpr}.
   /// [ctx] the parse tree.
   /// Return the visitor result.
   T visitSelectorExprAlt(SelectorExprAltContext ctx);
-
-  /// Visit a parse tree produced by the {@code ArgumentsExprAlt}
-  /// labeled alternative in {@link MicroGoParser#primaryExpr}.
-  /// [ctx] the parse tree.
-  /// Return the visitor result.
-  T visitArgumentsExprAlt(ArgumentsExprAltContext ctx);
 
   /// Visit a parse tree produced by the {@code OperandExprAlt}
   /// labeled alternative in {@link MicroGoParser#primaryExpr}.
