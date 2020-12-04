@@ -1,12 +1,12 @@
 import 'package:antlr4/antlr4.dart';
 import 'package:meta/meta.dart';
-import 'package:microgo/src/phases/phase1/identifier.dart';
-import 'package:microgo/src/phases/phase1/type.dart';
 
 import 'expression.dart';
 import 'function.dart';
+import 'identifier.dart';
 import 'rule.dart';
 import 'statement.dart';
+import 'type.dart';
 
 abstract class Literal extends OperandExpression {
   const Literal(
@@ -21,10 +21,20 @@ abstract class BasicLiteral<T> extends Literal {
     this.value,
     ParserRuleContext context,
   ) : super(context);
+
+  @override
+  List<Object> get props => [value];
 }
 
 class NilLiteral extends BasicLiteral {
   const NilLiteral({ParserRuleContext context}) : super(null, context);
+}
+
+class BooleanLiteral extends BasicLiteral<bool> {
+  const BooleanLiteral(
+    bool value, {
+    ParserRuleContext context,
+  }) : super(value, context);
 }
 
 class IntegerLiteral extends BasicLiteral<int> {
@@ -101,8 +111,8 @@ class CompositeValue extends Rule {
   List<Object> get props => [elements];
 }
 
-class KeyedElement<T> extends Rule {
-  final Key<T> key;
+class KeyedElement extends Rule {
+  final Key key;
   final Element element;
 
   bool get keyed => key != null;

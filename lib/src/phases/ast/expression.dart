@@ -1,6 +1,5 @@
 import 'package:antlr4/antlr4.dart';
 
-import 'function.dart';
 import 'identifier.dart';
 import 'operator.dart';
 import 'statement.dart';
@@ -203,7 +202,7 @@ class TypeAssertionExpression extends PrimaryExpression {
 
 class CallExpression extends PrimaryExpression {
   final PrimaryExpression primary;
-  final List<Argument> arguments;
+  final List<Expression> arguments;
 
   const CallExpression(
     this.primary, {

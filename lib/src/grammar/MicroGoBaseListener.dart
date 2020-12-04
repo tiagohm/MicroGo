@@ -1,10 +1,13 @@
+// Generated from /home/tiagohm/Git/dart/microgo/grammar/MicroGo.g4 by ANTLR 4.8
 // ignore_for_file: unused_import, unused_local_variable, prefer_single_quotes
 import 'package:antlr4/antlr4.dart';
 
 import 'MicroGoParser.dart';
 import 'MicroGoListener.dart';
 
+
 import 'MicroGoBaseParser.dart';
+
 
 /// This class provides an empty implementation of [MicroGoListener],
 /// which can be extended to create a listener which only needs to handle
@@ -268,14 +271,6 @@ class MicroGoBaseListener implements MicroGoListener {
 
   /// The default implementation does nothing.
   @override
-  void enterSliceType(SliceTypeContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void exitSliceType(SliceTypeContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
   void enterStructType(StructTypeContext ctx) {}
 
   /// The default implementation does nothing.
@@ -497,6 +492,14 @@ class MicroGoBaseListener implements MicroGoListener {
   /// The default implementation does nothing.
   @override
   void exitNilLit(NilLitContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterBooleanLit(BooleanLitContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitBooleanLit(BooleanLitContext ctx) {}
 
   /// The default implementation does nothing.
   @override
@@ -940,19 +943,11 @@ class MicroGoBaseListener implements MicroGoListener {
 
   /// The default implementation does nothing.
   @override
-  void enterIncStmtAlt(IncStmtAltContext ctx) {}
+  void enterIncDecStmt(IncDecStmtContext ctx) {}
 
   /// The default implementation does nothing.
   @override
-  void exitIncStmtAlt(IncStmtAltContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void enterDecStmtAlt(DecStmtAltContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void exitDecStmtAlt(DecStmtAltContext ctx) {}
+  void exitIncDecStmt(IncDecStmtContext ctx) {}
 
   /// The default implementation does nothing.
   @override
@@ -969,6 +964,30 @@ class MicroGoBaseListener implements MicroGoListener {
   /// The default implementation does nothing.
   @override
   void exitAssignOp(AssignOpContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterMultAssignOp(MultAssignOpContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitMultAssignOp(MultAssignOpContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterAddAssignOp(AddAssignOpContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitAddAssignOp(AddAssignOpContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterEqualAssignOp(EqualAssignOpContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitEqualAssignOp(EqualAssignOpContext ctx) {}
 
   /// The default implementation does nothing.
   @override
@@ -1025,6 +1044,22 @@ class MicroGoBaseListener implements MicroGoListener {
   /// The default implementation does nothing.
   @override
   void exitForClause(ForClauseContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterInitStmt(InitStmtContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitInitStmt(InitStmtContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterPostStmt(PostStmtContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitPostStmt(PostStmtContext ctx) {}
 
   /// The default implementation does nothing.
   @override

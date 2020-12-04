@@ -35,17 +35,3 @@ class Parameter extends Rule {
   @override
   List<Object> get props => [identifier, type, ellipsis];
 }
-
-class Argument extends Rule {
-  final Expression expression;
-  final bool ellipsis;
-
-  const Argument(
-    this.expression, {
-    this.ellipsis = false,
-    ParserRuleContext context,
-  }) : super(context);
-
-  @override
-  List<Object> get props => [expression, ellipsis];
-}

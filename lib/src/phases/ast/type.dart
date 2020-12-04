@@ -23,7 +23,7 @@ final integerTypeNameRegex = RegExp(r'^u?int(\d+)$');
 final floatTypeNameRegex = RegExp(r'float(\d+)$');
 
 /// A [DataType] represented by a [name].
-class NamedType extends DataType {
+class NamedType extends LiteralType {
   final Identifier name;
 
   const NamedType(
@@ -32,9 +32,9 @@ class NamedType extends DataType {
   ) : super(context);
 
   factory NamedType.from(
-    Identifier identifier,
+    Identifier identifier, {
     ParserRuleContext context,
-  ) {
+  }) {
     final name = identifier.value;
 
     if (identifier is SimpleIdentifier) {
@@ -204,7 +204,7 @@ class FunctionType extends LiteralType {
 }
 
 class PointerType extends DataType {
-  final Type type;
+  final DataType type;
 
   const PointerType(
     this.type, {
@@ -216,7 +216,7 @@ class PointerType extends DataType {
 }
 
 class SliceType extends LiteralType {
-  final Type type;
+  final DataType type;
 
   const SliceType(
     this.type, {
@@ -262,7 +262,7 @@ class MethodField extends InterfaceField {
 }
 
 class TypeField extends InterfaceField {
-  final Type type;
+  final DataType type;
 
   const TypeField(
     this.type, {

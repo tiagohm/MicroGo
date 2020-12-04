@@ -26,13 +26,6 @@ Future<MicroGoParser> parserFromText(String text) async {
 }
 
 extension ParserExtenstion<T extends Parser> on T {
-  void expectTree(
-    ParseTree Function() tree,
-    String expectedTree,
-  ) {
-    expect(toPrettyTree(tree), expectedTree);
-  }
-
   String toPrettyTree(ParseTree Function() tree) {
     final sb = StringBuffer();
 

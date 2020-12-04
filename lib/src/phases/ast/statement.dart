@@ -253,32 +253,32 @@ class ShortVarAssignment extends SimpleStatement {
 
 class SwitchStatement extends Statement {
   final SimpleStatement statement;
-  final Expression expression;
+  final Expression condition;
   final List<SwitchCase> cases;
 
   const SwitchStatement({
     this.statement,
-    this.expression,
+    this.condition,
     this.cases = const [],
     ParserRuleContext context,
   }) : super(context);
 
   @override
-  List<Object> get props => [statement, expression, cases];
+  List<Object> get props => [statement, condition, cases];
 }
 
 class SwitchCase extends Rule {
-  final List<Expression> expressions;
-  final List<Statement> statements;
+  final List<Expression> conditions;
+  final List<Statement> body;
 
-  bool get isDefault => expressions == null || expressions.isEmpty;
+  bool get isDefault => conditions == null || conditions.isEmpty;
 
   const SwitchCase(
-    this.expressions,
-    this.statements, {
+    this.conditions,
+    this.body, {
     ParserRuleContext context,
   }) : super(context);
 
   @override
-  List<Object> get props => [expressions, statements];
+  List<Object> get props => [conditions, body];
 }

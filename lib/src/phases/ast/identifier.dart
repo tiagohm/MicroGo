@@ -23,7 +23,7 @@ class SimpleIdentifier extends Identifier {
 }
 
 class QualifiedIdentifier extends Identifier {
-  final Package package;
+  final SimpleIdentifier package;
 
   const QualifiedIdentifier(
     this.package,

@@ -35,6 +35,8 @@ IMPORT                 : 'import';
 RETURN                 : 'return';
 VAR                    : 'var';
 NIL                    : 'nil';
+TRUE                   : 'true';
+FALSE                  : 'false';
 
 // Identifiers
 
@@ -46,6 +48,14 @@ LSHIFT_ASSIGN          : '<<=';
 RSHIFT_ASSIGN          : '>>=';
 BIT_CLEAR_ASSIGN       : '&^=';
 // https://yourbasic.org/golang/three-dots-ellipsis/
+PLUS_ASSIGN            : '+=';
+MINUS_ASSIGN           : '-=';
+STAR_ASSIGN            : '*=';
+DIV_ASSIGN             : '/=';
+MOD_ASSIGN             : '%=';
+AND_ASSIGN             : '&=';
+OR_ASSIGN              : '|=';
+XOR_ASSIGN             : '^=';
 ELLIPSIS               : '...';
 LOGICAL_AND            : '&&';
 LOGICAL_OR             : '||';
@@ -58,14 +68,6 @@ GREATER_OR_EQUALS      : '>=';
 LSHIFT                 : '<<';
 RSHIFT                 : '>>';
 BIT_CLEAR              : '&^';
-PLUS_ASSGIN            : '+=';
-MINUS_ASSIGN           : '-=';
-STAR_ASSIGN            : '*=';
-DIV_ASSIGN             : '/=';
-MOD_ASSIGN             : '%=';
-AND_ASSIGN             : '&=';
-OR_ASSIGN              : '|=';
-XOR_ASSIGN             : '^=';
 SHORT_ASSIGN           : ':=';
 PLUS                   : '+';
 MINUS                  : '-';
@@ -649,6 +651,7 @@ varSpec
 type
     : typeName
     | typeLit
+    | L_PAREN type R_PAREN
     ;
 
 typeName
@@ -662,7 +665,6 @@ typeLit
     | pointerType
     | functionType
     | interfaceType
-    | sliceType
     ;
 
 // Array types
@@ -673,12 +675,6 @@ arrayType
 
 arrayLength
     : expression
-    ;
-
-// Slice types
-
-sliceType
-    : L_BRACKET R_BRACKET type
     ;
 
 // Struct types
@@ -818,10 +814,15 @@ basicLit
     | floatLit
     | runeLit
     | stringLit
+    | booleanLit
     ;
 
 nilLit
     : NIL
+    ;
+
+booleanLit
+    : TRUE | FALSE
     ;
 
 integerLit
@@ -899,7 +900,6 @@ literalType
     : structType
     | arrayType
     | ellipsisArrayType
-    | sliceType
     | typeName
     ;
 
@@ -969,7 +969,7 @@ slice
     ;
 
 arguments
-    : L_PAREN (expressionList ELLIPSIS? COMMA?)? R_PAREN
+    : L_PAREN (expressionList COMMA?)? R_PAREN
     ;
 
 // Method expressions
@@ -1035,9 +1035,9 @@ statement
 
 simpleStmt
     : emptyStmt
-    | expressionStmt
-    | incDecStmt
     | assignment
+    | incDecStmt
+    | expressionStmt
     | shortVarDecl
     ;
 
@@ -1067,8 +1067,7 @@ expressionStmt
 // IncDec statements
 
 incDecStmt
-    : expression PLUS_PLUS # IncStmtAlt
-    | expression MINUS_MINUS # DecStmtAlt
+    : expression (PLUS_PLUS | MINUS_MINUS)
     ;
 
 // Assignments
@@ -1078,7 +1077,21 @@ assignment
     ;
 
 assignOp
-    : (multOp | addOp)? EQUAL
+    : multAssignOp
+    | addAssignOp
+    | equalAssignOp
+    ;
+
+multAssignOp
+    : STAR_ASSIGN | DIV_ASSIGN | MOD_ASSIGN | LSHIFT_ASSIGN | RSHIFT_ASSIGN | AND_ASSIGN | BIT_CLEAR_ASSIGN
+    ;
+
+addAssignOp
+    : PLUS_ASSIGN | MINUS_ASSIGN | OR_ASSIGN | XOR_ASSIGN
+    ;
+
+equalAssignOp
+    : EQUAL
     ;
 
 // If statements
@@ -1113,7 +1126,15 @@ condition
     ;
 
 forClause
-    : simpleStmt? SEMI condition? SEMI simpleStmt?
+    : initStmt? SEMI condition? SEMI postStmt?
+    ;
+
+initStmt
+    : simpleStmt
+    ;
+
+postStmt
+    : simpleStmt
     ;
 
 rangeClause

@@ -9,6 +9,8 @@
 * Type assertion (Can be implemented in the future?)
 * Type Switch (Can be implemented in the future?)
 * Type Alias (it is not necessary)
+* Slices (Can be implemented in the future?)
+* Arguments to variadic functions (array...)
 
 ## Enum type support
 * https://github.com/golang/go/issues/19814
@@ -85,3 +87,25 @@ func timer1() @Interrupt(Iv: 0x0008, Ics: false) @Org(0x600) {
 
 ## Ver se função recursiva é permitida
 MikroC permite? E se não tiver variáveis? E como fica os RX da função Delay_Ms()?
+
+## Operador Ternário
+
+## Interface as Top Level
+
+```go
+type I2C interface {
+    func Init(clock int64)
+    func Init() @For("^P18F.*(K42 | K83)$")
+    func IsIdle() bool
+    func Read(ack int8) int8
+    func Read() @For("^P18F.*(K42 | K83)$")
+}
+```
+
+```go
+package HardwareI2C<I2C> {
+    func Init(clock int64) {}
+
+    func Init() @For("^P18F.*(K42 | K83)$") {}
+}
+```

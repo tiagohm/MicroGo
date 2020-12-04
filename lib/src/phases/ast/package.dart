@@ -1,6 +1,7 @@
 import 'package:antlr4/antlr4.dart';
-import 'package:microgo/src/phases/phase1/declaration.dart';
 
+import 'declaration.dart';
+import 'expression.dart';
 import 'function.dart';
 import 'identifier.dart';
 import 'rule.dart';
@@ -28,7 +29,7 @@ class Package extends Rule {
 class PackageArgument extends Rule {
   final SimpleIdentifier alias;
   final SimpleIdentifier name;
-  final List<Argument> arguments;
+  final List<Expression> arguments;
 
   const PackageArgument(
     this.alias,

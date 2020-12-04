@@ -48,15 +48,3 @@ class RelationalOperator extends Operator {
     ParserRuleContext context,
   }) : super(value, context);
 }
-
-class AssignmentOperator extends Operator {
-  const AssignmentOperator({
-    ParserRuleContext context,
-  }) : super('=', context);
-}
-
-class ShortAssignmentOperator extends Operator {
-  const ShortAssignmentOperator({
-    ParserRuleContext context,
-  }) : super(':=', context);
-}

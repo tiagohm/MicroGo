@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:antlr4/antlr4.dart';
 import 'package:microgo/src/grammar/MicroGoBaseVisitor.dart';
 import 'package:microgo/src/grammar/MicroGoParser.dart';
@@ -14,7 +16,7 @@ import 'source_file.dart';
 import 'statement.dart';
 import 'type.dart';
 
-class PhaseOneVisitor extends MicroGoBaseVisitor {
+class AstVisitor extends MicroGoBaseVisitor {
   final context = <dynamic, ParserRuleContext>{};
 
   @override
@@ -227,14 +229,14 @@ class PhaseOneVisitor extends MicroGoBaseVisitor {
 
   @override
   DataType visitType(TypeContext ctx) {
-    return super.visitType(ctx);
+    return visit(ctx.type()) ?? super.visitType(ctx);
   }
 
   @override
   DataType visitTypeName(TypeNameContext ctx) {
     return NamedType.from(
       visit(ctx.identifier()) ?? visit(ctx.qualifiedIdent()),
-      ctx,
+      context: ctx,
     );
   }
 
@@ -257,13 +259,6 @@ class PhaseOneVisitor extends MicroGoBaseVisitor {
   @override
   Expression visitArrayLength(ArrayLengthContext ctx) {
     return super.visitArrayLength(ctx);
-  }
-
-  // Slice types
-
-  @override
-  DataType visitSliceType(SliceTypeContext ctx) {
-    return SliceType(visit(ctx.type()), context: ctx);
   }
 
   // Struct types
@@ -480,6 +475,11 @@ class PhaseOneVisitor extends MicroGoBaseVisitor {
   }
 
   @override
+  Literal visitBooleanLit(BooleanLitContext ctx) {
+    return BooleanLiteral(ctx.TRUE() != null);
+  }
+
+  @override
   Literal visitIntegerLit(IntegerLitContext ctx) {
     return super.visitIntegerLit(ctx);
   }
@@ -554,6 +554,7 @@ class PhaseOneVisitor extends MicroGoBaseVisitor {
   @override
   Literal visitRawStringLit(RawStringLitContext ctx) {
     final value = ctx.RAW_STRING_LIT().text;
+    print(ctx.RAW_STRING_LIT().text.codeUnits);
     return StringLiteral(
       value.substring(1, value.length - 1),
       raw: true,
@@ -565,10 +566,89 @@ class PhaseOneVisitor extends MicroGoBaseVisitor {
   Literal visitInterpretedStringLit(InterpretedStringLitContext ctx) {
     final value = ctx.INTERPRETED_STRING_LIT().text;
     return StringLiteral(
-      value.substring(1, value.length - 1),
+      _interpretString(value.substring(1, value.length - 1)),
       raw: false,
       context: ctx,
     );
+  }
+
+  static const _escapedChars = 'abfnrtv\\\'"';
+  static const _escapedCharCodes = [
+    0x07, 0x08, 0x0C, 0x0A, 0x0D, //
+    0x09, 0x0B, 0x5C, 0x27, 0x22
+  ];
+
+  static String _interpretString(String raw) {
+    final sb = StringBuffer();
+    var escape = false;
+
+    for (var i = 0; i < raw.length; i++) {
+      final c = raw[i];
+
+      if (c == '\\' && !escape) {
+        escape = true;
+      } else if (!escape) {
+        sb.write(c);
+      } else {
+        // Escaped char.
+        final index = _escapedChars.indexOf(c);
+
+        if (index >= 0) {
+          final code = _escapedCharCodes[index];
+          sb.writeCharCode(code);
+          escape = false;
+          continue;
+        }
+
+        // Octal byte. (3 bytes)
+        if (i + 2 < raw.length &&
+            _isOctal(c) &&
+            _isOctal(raw[i + 1]) &&
+            _isOctal(raw[i + 2])) {
+          final code = int.parse(raw.substring(i, i + 3), radix: 8);
+          sb.writeCharCode(code);
+          escape = false;
+          i += 2;
+          continue;
+        }
+
+        // Hex byte. (2 bytes)
+        if (c == 'x' && i + 2 < raw.length) {
+          final code = int.parse(raw.substring(i + 1, i + 3), radix: 16);
+          sb.writeCharCode(code);
+          escape = false;
+          i += 2;
+          continue;
+        }
+
+        // Little U byte. (4 bytes)
+        if (c == 'u' && i + 4 < raw.length) {
+          final code = int.parse(raw.substring(i + 1, i + 5), radix: 16);
+          sb.writeCharCode(code);
+          escape = false;
+          i += 4;
+          continue;
+        }
+
+        // Big U byte. (8 bytes)
+        if (c == 'U' && i + 8 < raw.length) {
+          final code = int.parse(raw.substring(i + 1, i + 9), radix: 16);
+          sb.writeCharCode(code);
+          escape = false;
+          i += 8;
+          continue;
+        }
+
+        throw Exception('Invalid escape char: $c');
+      }
+    }
+
+    return '$sb';
+  }
+
+  static bool _isOctal(String c) {
+    final code = c.codeUnits[0];
+    return code >= 48 && code <= 57;
   }
 
   @override
@@ -581,7 +661,7 @@ class PhaseOneVisitor extends MicroGoBaseVisitor {
   @override
   Identifier visitQualifiedIdent(QualifiedIdentContext ctx) {
     return QualifiedIdentifier(
-      Package(visit(ctx.packageName()), context: ctx),
+      visit(ctx.packageName()),
       ctx.IDENTIFIER().text,
       context: ctx,
     );
@@ -614,7 +694,7 @@ class PhaseOneVisitor extends MicroGoBaseVisitor {
   }
 
   @override
-  List<Element> visitElementList(ElementListContext ctx) {
+  List<KeyedElement> visitElementList(ElementListContext ctx) {
     return visitList(ctx.keyedElements());
   }
 
@@ -647,8 +727,12 @@ class PhaseOneVisitor extends MicroGoBaseVisitor {
   }
 
   @override
-  dynamic visitElement(ElementContext ctx) {
-    return super.visitElement(ctx);
+  Element visitElement(ElementContext ctx) {
+    if (ctx.expression() != null) {
+      return Element<Expression>(visit(ctx.expression()), context: ctx);
+    } else {
+      return Element<CompositeValue>(visit(ctx.literalValue()), context: ctx);
+    }
   }
 
   // Function literals
@@ -728,16 +812,8 @@ class PhaseOneVisitor extends MicroGoBaseVisitor {
   }
 
   @override
-  List<Argument> visitArguments(ArgumentsContext ctx) {
-    final expressions = visit(ctx.expressionList()) ?? const [];
-    return [
-      for (var i = 0; i < expressions.length; i++)
-        Argument(
-          expressions[i],
-          ellipsis: i == expressions.length - 1 && ctx.ELLIPSIS() != null,
-          context: expressions[i].context,
-        )
-    ];
+  List<Expression> visitArguments(ArgumentsContext ctx) {
+    return visit(ctx.expressionList()) ?? const [];
   }
 
   @override
@@ -899,13 +975,12 @@ class PhaseOneVisitor extends MicroGoBaseVisitor {
   // IncDec statements
 
   @override
-  Statement visitIncStmtAlt(IncStmtAltContext ctx) {
-    return IncrementStatement(visit(ctx.expression()), context: ctx);
-  }
-
-  @override
-  Statement visitDecStmtAlt(DecStmtAltContext ctx) {
-    return DecrementStatement(visit(ctx.expression()), context: ctx);
+  Statement visitIncDecStmt(IncDecStmtContext ctx) {
+    if (ctx.PLUS_PLUS() != null) {
+      return IncrementStatement(visit(ctx.expression()), context: ctx);
+    } else {
+      return DecrementStatement(visit(ctx.expression()), context: ctx);
+    }
   }
 
   // Assignments
@@ -922,13 +997,24 @@ class PhaseOneVisitor extends MicroGoBaseVisitor {
 
   @override
   Operator visitAssignOp(AssignOpContext ctx) {
-    if (ctx.multOp() != null) {
-      return visit(ctx.multOp());
-    } else if (ctx.addOp() != null) {
-      return visit(ctx.addOp());
-    } else {
-      return AssignmentOperator(context: ctx);
-    }
+    return super.visitAssignOp(ctx);
+  }
+
+  @override
+  Operator visitMultAssignOp(MultAssignOpContext ctx) {
+    final text = ctx.text;
+    return MultOperator(text.substring(0, text.length - 1), context: ctx);
+  }
+
+  @override
+  Operator visitAddAssignOp(AddAssignOpContext ctx) {
+    final text = ctx.text;
+    return AddOperator(text.substring(0, text.length - 1), context: ctx);
+  }
+
+  @override
+  Operator visitEqualAssignOp(EqualAssignOpContext ctx) {
+    return null;
   }
 
   // If statements
@@ -949,7 +1035,7 @@ class PhaseOneVisitor extends MicroGoBaseVisitor {
   Statement visitSwitchStmt(SwitchStmtContext ctx) {
     return SwitchStatement(
       statement: visit(ctx.simpleStmt()),
-      expression: visit(ctx.expression()),
+      condition: visit(ctx.expression()),
       cases: visitList(ctx.switchCaseClauses()),
       context: ctx,
     );
@@ -967,7 +1053,7 @@ class PhaseOneVisitor extends MicroGoBaseVisitor {
   @override
   List<Expression> visitSwitchCase(SwitchCaseContext ctx) {
     if (ctx.DEFAULT() != null) {
-      return const [];
+      return null;
     } else {
       return visit(ctx.expressionList());
     }
@@ -1013,10 +1099,20 @@ class PhaseOneVisitor extends MicroGoBaseVisitor {
   @override
   List visitForClause(ForClauseContext ctx) {
     return [
-      visit(ctx.simpleStmt(0)),
+      visit(ctx.initStmt()),
       visit(ctx.condition()),
-      visit(ctx.simpleStmt(1)),
+      visit(ctx.postStmt()),
     ];
+  }
+
+  @override
+  Statement visitInitStmt(InitStmtContext ctx) {
+    return super.visitInitStmt(ctx);
+  }
+
+  @override
+  Statement visitPostStmt(PostStmtContext ctx) {
+    return super.visitPostStmt(ctx);
   }
 
   @override
